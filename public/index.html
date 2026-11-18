@@ -7,7 +7,7 @@
 <title>Yılbaşı Çekilişi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Coiny&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Sancreek&family=Luckiest+Guy&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="/gorseller/sahne.webp">
 <style>
 /* =========================================================
@@ -335,6 +335,110 @@ label.etiket { display: block; font-family: var(--f-baslik); font-weight: 500; f
 #konfeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 85; }
 footer { margin-top: 60px; text-align: center; color: var(--soluk); font-size: 14.5px; font-weight: 700; }
 
+/* =========================================================
+   OYUN ARAYÜZÜ — karlı kırmızı paneller, plakalar, buz saçakları
+   (yukarıdaki temel stilleri bilerek ezer)
+   ========================================================= */
+:root {
+  --f-oyun: 'Luckiest Guy', 'Baloo 2', system-ui, sans-serif; --f-vintage: 'Sancreek', 'Baloo 2', Georgia, serif;
+  --pk: #D1263A; --pk2: #A9172A; --pk-koyu: #6E0C17; --pk-ic: #8A1220; --krem: #FFF4EC;
+  --kar-tepe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16' preserveAspectRatio='none'%3E%3Cpath d='M0 16 V10 Q6 2 20 6 Q32 0 48 5 Q62 1 76 6 Q92 0 108 5 Q124 1 138 6 Q154 0 170 5 Q186 2 200 9 V16 Z' fill='%23FFF4EC'/%3E%3C/svg%3E");
+  --buz-sacak: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 22'%3E%3Cpath d='M0 0H120V5Q116 5 114 9Q112 5 108 5Q104 5 103 16Q101 5 96 5H84Q80 5 79 11Q77 5 73 5H60Q56 5 55 20Q53 5 49 5H36Q33 5 32 9Q30 5 26 5H16Q12 5 11 14Q9 5 4 5H0Z' fill='%23FFF4EC'/%3E%3C/svg%3E");
+  --kar-yigin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40 Q4 22 24 20 Q34 6 58 12 Q74 0 98 10 Q120 4 136 18 Q160 14 176 26 Q192 28 200 40Z' fill='%23FFF4EC'/%3E%3C/svg%3E");
+}
+/* üst bar: logo yok; çekiliş sayfasında ev butonu */
+.ust { justify-content: space-between; min-height: 60px; }
+.ev-btn { width: 54px; height: 50px; padding: 0 !important; font-size: 22px !important; }
+
+/* paneller */
+main .kart, .pencere .kart { border-radius: 30px; padding: 48px 26px 30px; margin-top: 44px;
+  background: radial-gradient(130% 80% at 50% 0%, #E33A4B 0%, var(--pk) 45%, var(--pk2) 100%);
+  border: 5px solid var(--krem);
+  box-shadow: 0 0 0 4px var(--pk-koyu), 0 10px 0 4px rgba(50, 4, 10, .55), 0 32px 40px -14px rgba(0, 0, 0, .6), inset 0 -10px 0 rgba(0, 0, 0, .12), inset 0 3px 0 rgba(255, 255, 255, .22); }
+main .kart.sicak { border-color: var(--krem); background: radial-gradient(130% 80% at 50% 0%, #E33A4B 0%, var(--pk) 45%, var(--pk2) 100%); }
+main .kart::after, .pencere .kart::after { content: ""; position: absolute; left: 20px; right: 20px; top: -1px; height: 22px; pointer-events: none; z-index: 1; background: var(--buz-sacak) 0 0 / 120px 22px repeat-x; }
+main .kart::before { content: ""; position: absolute; left: -16px; bottom: -14px; width: 44%; max-width: 250px; height: 38px; pointer-events: none; z-index: 2;
+  background: var(--kar-yigin) 0 100% / 100% 100% no-repeat; filter: drop-shadow(0 -2px 0 #D9DDF2); }
+.kart > canvas.ust-kar { top: -34px; }
+.kart h2, .kart h3 { font-family: var(--f-baslik); font-weight: 700; color: var(--krem); text-shadow: 0 3px 0 rgba(80, 4, 12, .55); }
+.kart p, .durum p, .pencere p { color: #FFE4E6; }
+.kart .alt-yazi { margin: 0 0 18px; text-align: center; color: #FFE4E6; font-weight: 700; }
+.kose-sus { position: absolute; top: -34px; right: 18px; z-index: 4; font-size: 38px; line-height: 1; filter: drop-shadow(0 4px 0 rgba(0, 0, 0, .3)); pointer-events: none; animation: sallan 5s ease-in-out infinite; transform-origin: 50% 100%; }
+.kose-sus.sol { right: auto; left: 18px; }
+
+/* başlık plakası */
+.plaka { position: absolute; top: -32px; left: 50%; transform: translateX(-50%); z-index: 3; margin: 0 !important; max-width: calc(100% - 40px);
+  font-family: var(--f-oyun) !important; font-weight: 400 !important; text-transform: uppercase; font-size: 23px !important; letter-spacing: .04em; line-height: 1 !important;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--krem) !important;
+  padding: 15px 30px 11px; border-radius: 16px; background: linear-gradient(180deg, #EA3D4E, #B81C2C); border: 4px solid var(--krem);
+  box-shadow: 0 0 0 3px var(--pk-koyu), 0 6px 0 2px rgba(50, 4, 10, .5), inset 0 2px 0 rgba(255, 255, 255, .3); text-shadow: 0 3px 0 var(--pk-koyu) !important; }
+.plaka-sar { position: absolute; top: -32px; left: 50%; transform: translateX(-50%); z-index: 3; }
+.pencere .kart { padding-top: 52px; }
+@media (max-width: 520px) { .plaka { font-size: 18px !important; padding: 13px 20px 9px; } main .kart, .pencere .kart { padding: 44px 18px 26px; } }
+
+/* oyun yazısı kullanan küçük öğeler (Türkçe büyük harf için lang=tr + uppercase) */
+label.etiket, .etiket-ust, .sayac-etiket, .paket span, .cip, .sen-rozet, .satir-yazi, .sahne .ipucu { font-family: var(--f-oyun); font-weight: 400; text-transform: uppercase; letter-spacing: .05em; }
+label.etiket { color: #FFE3B0; font-size: 14px; }
+.etiket-ust { color: #FFE08A; font-size: 14px; } .etiket-ust.yesil { color: #C9F5D3; } .etiket-ust.kirmizi { color: #FFE08A; }
+.kart .soluk, .pencere .soluk { color: #F8CDD1; }
+.kart .hata, .pencere .hata { color: #FFE08A; }
+.paket b { font-family: var(--f-oyun); font-weight: 400; font-size: 32px; padding-top: 2px; }
+
+/* iç gömme alanlar */
+main .kart .girdi { background: var(--pk-ic); border: 3px solid var(--pk-koyu); color: var(--krem); box-shadow: inset 0 4px 0 rgba(0, 0, 0, .2); }
+main .kart .girdi::placeholder { color: #E79AA3; }
+main .kart .girdi:focus { border-color: #FFD873; box-shadow: inset 0 4px 0 rgba(0, 0, 0, .2), 0 0 0 4px rgba(255, 216, 115, .3); }
+.bekleme, .davet, .gizli-link, .oyuncu, .bos { background: var(--pk-ic) !important; border: 3px solid var(--pk-koyu) !important; border-style: solid !important; box-shadow: inset 0 4px 0 rgba(0, 0, 0, .18); }
+.oyuncu.sen { border-color: #FFD873 !important; background: #9C1826 !important; }
+.oyuncu .alt { color: #F8CDD1; } .oyuncu .alt.hazir { color: #C9F5D3; } .oyuncu .alt.acti { color: #FFE08A; }
+.davet code, .gizli-link { color: #FFE08A; }
+.ilerleme { background: var(--pk-ic); border: 3px solid var(--pk-koyu); height: 20px; }
+.hucre { box-shadow: inset 0 -5px 0 #E6D3B3, 0 0 0 3px var(--pk-koyu); color: var(--pk2); font-family: var(--f-oyun); font-weight: 400; }
+.kod-alan.odak .hucre.aktif { box-shadow: inset 0 -5px 0 #E6D3B3, 0 0 0 3px #FFD873; }
+.at-btn { border: 3px solid var(--krem); color: var(--krem); background: var(--pk2); }
+.cip { background: var(--pk-ic); border: 3px solid var(--krem); color: var(--krem); font-size: 13px; padding: 8px 14px 6px; box-shadow: 0 0 0 2px var(--pk-koyu); }
+.cip.yesil { color: #C9F5D3; border-color: var(--krem); } .cip.altin { color: #FFE08A; border-color: var(--krem); }
+.sen-rozet { padding: 5px 10px 3px; }
+
+/* butonlar: beyaz çerçeveli, üstü karlı */
+.btn { border-radius: 16px; border: 4px solid var(--krem); overflow: visible; font-family: var(--f-oyun); font-weight: 400; text-transform: uppercase; letter-spacing: .05em;
+  padding: 14px 26px 10px; text-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+  box-shadow: 0 0 0 3px var(--pk-koyu), 0 7px 0 3px rgba(50, 4, 10, .55), inset 0 3px 0 rgba(255, 255, 255, .3), inset 0 -4px 0 rgba(0, 0, 0, .15); }
+.btn::after { animation: none; opacity: 1; inset: auto; left: 8px; right: 8px; top: -11px; height: 14px; border-radius: 0; background: var(--kar-tepe) 0 0 / 100% 100% no-repeat; }
+.btn:hover::after { opacity: 1; }
+.btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn:active { transform: translateY(5px); box-shadow: 0 0 0 3px var(--pk-koyu), 0 2px 0 3px rgba(50, 4, 10, .55), inset 0 3px 0 rgba(255, 255, 255, .3); }
+.btn.altin { --g: #6E0C17; } .btn.yesil { --g: #6E0C17; }
+.btn.ince { --u: #9A1A28; --a: #6E0C17; color: var(--krem); border: 4px solid var(--krem); padding: 14px 24px 10px;
+  box-shadow: 0 0 0 3px var(--pk-koyu), 0 7px 0 3px rgba(50, 4, 10, .55), inset 0 3px 0 rgba(255, 255, 255, .2); }
+.btn.ince:hover { background: linear-gradient(180deg, #A9202F, #7A0F1B); }
+.btn.ince:active { transform: translateY(5px); }
+.btn:disabled { border-color: #C9BFCB; box-shadow: 0 0 0 3px #3A2E40, 0 5px 0 3px rgba(0, 0, 0, .4); }
+.btn.buyuk { padding: 17px 34px 13px; font-size: 21px; }
+.metin-btn { color: #FFE4E6; }
+
+/* başlık: vintage, kırmızı + altın kontur + kabartma */
+.hero h1 { font-family: var(--f-vintage); }
+.hero h1 .ince-satir { font-family: var(--f-vintage); font-weight: 400; font-size: clamp(38px, 4.8vw, 60px); color: #E8262B; letter-spacing: .03em;
+  -webkit-text-stroke: 3px #F2CF7A; paint-order: stroke fill; text-shadow: 0 4px 0 #6E0F0F, 0 0 26px rgba(255, 190, 90, .25); }
+.hero h1 .ana-satir { font-family: var(--f-vintage); font-size: clamp(66px, 9.4vw, 124px); letter-spacing: .02em; color: #E8262B; -webkit-text-stroke: 5px #F2CF7A;
+  text-shadow: 0 5px 0 #8E1414, 0 9px 0 #5C0B0B, 0 18px 26px rgba(0, 0, 0, .5), 0 0 40px rgba(255, 190, 90, .2); }
+.susleme { font-family: var(--f-govde); font-weight: 800; letter-spacing: .32em; color: #E9C677; }
+.oda-ust h1 { font-family: var(--f-vintage); font-weight: 400; letter-spacing: .02em; color: #E8262B; -webkit-text-stroke: 3px #F2CF7A; paint-order: stroke fill;
+  text-shadow: 0 4px 0 #8E1414, 0 7px 0 #5C0B0B, 0 12px 20px rgba(0, 0, 0, .5); }
+.sahne h2 { font-family: var(--f-vintage); font-weight: 400; color: #E8262B; -webkit-text-stroke: 3px #F2CF7A; paint-order: stroke fill; text-shadow: 0 4px 0 #8E1414, 0 10px 20px rgba(0, 0, 0, .5); }
+.susleme::before, .susleme::after { width: 80px; }
+
+/* köşe objeleri: gerçekçi görseller */
+img.agac { height: auto; width: 300px; left: -34px; bottom: 0; filter: drop-shadow(0 0 40px rgba(255, 180, 80, .2));
+  -webkit-mask-image: linear-gradient(to right, #000 74%, transparent 95%), linear-gradient(to top, #000 86%, transparent 100%); -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, #000 74%, transparent 95%), linear-gradient(to top, #000 86%, transparent 100%); mask-composite: intersect; }
+img.kose-sag { height: auto; width: 270px; right: -18px; bottom: 0;
+  -webkit-mask-image: linear-gradient(to left, #000 64%, transparent 98%), linear-gradient(to top, #000 70%, transparent 100%); -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to left, #000 64%, transparent 98%), linear-gradient(to top, #000 70%, transparent 100%); mask-composite: intersect; }
+@media (max-width: 1400px) { img.agac { width: 230px; } img.kose-sag { width: 210px; } }
+@media (max-width: 860px) { img.agac { width: 130px; left: -24px; } img.kose-sag { width: 120px; right: -14px; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
 }
@@ -353,61 +457,10 @@ footer { margin-top: 60px; text-align: center; color: var(--soluk); font-size: 1
   <svg class="altin-cizgi" style="left:46%;top:8%;width:16px;animation-delay:-2.8s" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z" fill="currentColor"/></svg>
   <svg class="altin-cizgi" style="left:3%;top:24%;width:58px;opacity:.4;animation-delay:-1.7s" viewBox="0 0 60 90" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M30 0v22"/><rect x="25" y="22" width="10" height="7" rx="1.5"/><circle cx="30" cy="54" r="25"/><path d="M8 46 l8 8 l7 -8 l7 8 l7 -8 l7 8 l8 -8"/><path d="M6 60 h48"/></svg>
   <svg class="altin-cizgi" style="right:12%;top:12%;width:48px;opacity:.4;animation-delay:-.9s" viewBox="0 0 50 90" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M25 0v20"/><path d="M25 20 C46 30 46 60 25 88 C4 60 4 30 25 20Z"/><path d="M12 44 h26 M10 58 h30 M14 72 h22"/></svg>
-  <svg class="asili sol" viewBox="0 0 120 210">
-    <g class="top" style="transform-origin:22px 0"><line x1="22" y1="0" x2="22" y2="120" stroke="#E2B65A" stroke-width="1.5"/><rect x="16" y="118" width="12" height="8" rx="2" fill="#E9B23F"/><circle cx="22" cy="142" r="18" fill="#D9342A"/><circle cx="16" cy="135" r="5" fill="#fff" opacity=".5"/></g>
-    <g class="top" style="transform-origin:62px 0"><line x1="62" y1="0" x2="62" y2="70" stroke="#E2B65A" stroke-width="1.5"/><rect x="57" y="68" width="10" height="7" rx="2" fill="#E9B23F"/><circle cx="62" cy="88" r="14" fill="#F3B23A"/><circle cx="57" cy="83" r="4" fill="#fff" opacity=".55"/></g>
-    <g class="top" style="transform-origin:98px 0"><line x1="98" y1="0" x2="98" y2="150" stroke="#E2B65A" stroke-width="1.5"/><rect x="93" y="148" width="10" height="7" rx="2" fill="#E9B23F"/><circle cx="98" cy="168" r="13" fill="#3BA55C"/><circle cx="94" cy="163" r="4" fill="#fff" opacity=".5"/></g>
-  </svg>
-  <svg class="asili sag" viewBox="0 0 120 210">
-    <g class="top" style="transform-origin:24px 0"><line x1="24" y1="0" x2="24" y2="140" stroke="#E2B65A" stroke-width="1.5"/><rect x="19" y="138" width="10" height="7" rx="2" fill="#E9B23F"/><circle cx="24" cy="158" r="13" fill="#F3B23A"/><circle cx="20" cy="153" r="4" fill="#fff" opacity=".55"/></g>
-    <g class="top" style="transform-origin:60px 0"><line x1="60" y1="0" x2="60" y2="80" stroke="#E2B65A" stroke-width="1.5"/><rect x="54" y="78" width="12" height="8" rx="2" fill="#E9B23F"/><circle cx="60" cy="104" r="20" fill="#D9342A"/><circle cx="53" cy="96" r="6" fill="#fff" opacity=".5"/></g>
-    <g class="top" style="transform-origin:98px 0"><line x1="98" y1="0" x2="98" y2="110" stroke="#E2B65A" stroke-width="1.5"/><rect x="92" y="108" width="12" height="8" rx="2" fill="#E9B23F"/><circle cx="98" cy="130" r="16" fill="#3BA55C"/><circle cx="92" cy="124" r="5" fill="#fff" opacity=".5"/></g>
-  </svg>
-
-  <!-- karlı çam ağacı -->
-  <svg class="agac" viewBox="0 0 260 360">
-    <defs><linearGradient id="agacY" x1="0" x2="1"><stop offset="0" stop-color="#4FA84A"/><stop offset=".55" stop-color="#2F7D34"/><stop offset="1" stop-color="#1E5A25"/></linearGradient></defs>
-    <rect x="114" y="292" width="32" height="44" rx="4" fill="#6B3A1E"/>
-    <path d="M130 150 L232 290 Q216 302 200 292 Q186 306 170 294 Q154 308 138 296 Q122 308 106 294 Q90 306 74 292 Q58 302 28 290 Z" fill="url(#agacY)"/>
-    <path d="M130 92 L206 200 Q194 210 180 202 Q168 214 154 204 Q142 216 128 204 Q114 216 102 204 Q88 214 76 202 Q64 210 54 200 Z" fill="url(#agacY)"/>
-    <path d="M130 42 L182 124 Q172 132 162 126 Q152 136 140 128 Q130 138 120 128 Q108 136 98 126 Q88 132 78 124 Z" fill="url(#agacY)"/>
-    <g fill="#F4F6FF"><ellipse cx="62" cy="288" rx="22" ry="7"/><ellipse cx="190" cy="290" rx="26" ry="7"/><ellipse cx="80" cy="200" rx="18" ry="6"/><ellipse cx="176" cy="198" rx="20" ry="6"/><ellipse cx="104" cy="126" rx="14" ry="5"/><ellipse cx="156" cy="124" rx="14" ry="5"/></g>
-    <path d="M70 168 Q130 190 196 160 M50 252 Q130 280 214 244" fill="none" stroke="#D9342A" stroke-width="7" stroke-linecap="round"/>
-    <g><circle class="ampul-isik" cx="96" cy="112" r="5.5" fill="#FFE27A"/><circle class="ampul-isik" style="animation-delay:-.6s" cx="160" cy="110" r="5.5" fill="#FFE27A"/>
-      <circle class="ampul-isik" style="animation-delay:-1.1s" cx="86" cy="184" r="5.5" fill="#FFE27A"/><circle class="ampul-isik" style="animation-delay:-.3s" cx="130" cy="176" r="5.5" fill="#FFE27A"/>
-      <circle class="ampul-isik" style="animation-delay:-1.5s" cx="180" cy="180" r="5.5" fill="#FFE27A"/><circle class="ampul-isik" style="animation-delay:-.9s" cx="70" cy="268" r="5.5" fill="#FFE27A"/>
-      <circle class="ampul-isik" style="animation-delay:-.2s" cx="118" cy="262" r="5.5" fill="#FFE27A"/><circle class="ampul-isik" style="animation-delay:-1.3s" cx="170" cy="258" r="5.5" fill="#FFE27A"/>
-      <circle class="ampul-isik" style="animation-delay:-.7s" cx="214" cy="270" r="5.5" fill="#FFE27A"/></g>
-    <g><circle cx="128" cy="140" r="10" fill="#D9342A"/><circle cx="124" cy="136" r="3" fill="#fff" opacity=".6"/>
-      <circle cx="104" cy="226" r="11" fill="#F3B23A"/><circle cx="100" cy="222" r="3.5" fill="#fff" opacity=".6"/>
-      <circle cx="160" cy="226" r="11" fill="#D9342A"/><circle cx="156" cy="222" r="3.5" fill="#fff" opacity=".6"/>
-      <circle cx="146" cy="282" r="10" fill="#F3B23A"/><circle cx="142" cy="278" r="3" fill="#fff" opacity=".6"/>
-      <circle cx="92" cy="284" r="10" fill="#D9342A"/></g>
-    <path class="yildiz-parla" d="M130 8 L139 30 L162 31 L144 46 L151 69 L130 56 L109 69 L116 46 L98 31 L121 30 Z" fill="#FFCD45" stroke="#F0A12A" stroke-width="2" stroke-linejoin="round"/>
-    <ellipse cx="130" cy="338" rx="120" ry="16" fill="#F4F6FF"/>
-  </svg>
-
-  <!-- hediyeler, şeker kamışı, kurabiye adam, nane şekeri -->
-  <svg class="kose-sag" viewBox="0 0 320 260">
-    <path d="M262 236 V96 a26 26 0 0 0 -52 0" fill="none" stroke="#fff" stroke-width="15" stroke-linecap="round"/>
-    <path d="M262 236 V96 a26 26 0 0 0 -52 0" fill="none" stroke="#E0352B" stroke-width="15" stroke-dasharray="11 11"/>
-    <rect x="166" y="150" width="96" height="86" rx="6" fill="#2F8A44"/><rect x="206" y="150" width="16" height="86" fill="#D9342A"/>
-    <rect x="160" y="136" width="108" height="24" rx="6" fill="#3BA55C"/><rect x="206" y="136" width="16" height="24" fill="#D9342A"/>
-    <path d="M214 136 C196 104 172 118 196 136 M214 136 C232 104 256 118 232 136" fill="none" stroke="#D9342A" stroke-width="8" stroke-linecap="round"/>
-    <ellipse cx="216" cy="139" rx="40" ry="6" fill="#F4F6FF" opacity=".9"/>
-    <g transform="translate(70 96)">
-      <path d="M18 58 Q0 54 -6 66 Q-8 80 8 80 L24 76 L18 112 Q14 126 28 128 Q40 128 42 114 L44 100 L48 114 Q50 128 62 128 Q76 126 72 112 L66 76 L82 80 Q98 80 96 66 Q90 54 72 58 Z" fill="#C9803A"/>
-      <circle cx="44" cy="38" r="25" fill="#C9803A"/>
-      <g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M-2 66 l4 -4 l4 4 l4 -4"/><path d="M80 66 l4 -4 l4 4 l4 -4"/><path d="M20 118 l4 4 l4 -4 l4 4"/><path d="M52 118 l4 4 l4 -4 l4 4"/><path d="M34 46 Q44 54 54 46"/></g>
-      <circle cx="36" cy="32" r="3.5" fill="#3A1E0E"/><circle cx="52" cy="32" r="3.5" fill="#3A1E0E"/>
-      <circle cx="30" cy="42" r="3" fill="#E77A6B" opacity=".7"/><circle cx="58" cy="42" r="3" fill="#E77A6B" opacity=".7"/>
-      <circle cx="44" cy="70" r="4.5" fill="#D9342A"/><circle cx="44" cy="86" r="4.5" fill="#3BA55C"/>
-    </g>
-    <circle cx="44" cy="214" r="26" fill="#fff"/><circle cx="44" cy="214" r="13" fill="none" stroke="#E0352B" stroke-width="26" stroke-dasharray="5.1 5.1"/><circle cx="44" cy="214" r="26" fill="none" stroke="#F1E6E6" stroke-width="2"/>
-    <path d="M108 238 q-6 -26 22 -30 q-4 14 8 20 q-12 4 -30 10z" fill="#2F8A44"/><path d="M146 238 q8 -24 -18 -32 q2 14 -10 20 q12 4 28 12z" fill="#3BA55C"/>
-    <circle cx="124" cy="226" r="6" fill="#D9342A"/><circle cx="134" cy="232" r="6" fill="#E8392F"/><circle cx="118" cy="234" r="5" fill="#C42A22"/>
-    <ellipse cx="160" cy="244" rx="160" ry="14" fill="#F4F6FF"/>
-  </svg>
+  <svg class="asili sol" viewBox="0 0 120 210"><defs><radialGradient id="as1g" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FF8A7A"/><stop offset=".55" stop-color="#C8141F"/><stop offset="1" stop-color="#1a0606"/></radialGradient><linearGradient id="as1k" x1="0" x2="1"><stop offset="0" stop-color="#8A6A2A"/><stop offset=".5" stop-color="#F7E09A"/><stop offset="1" stop-color="#8A6A2A"/></linearGradient><radialGradient id="as2g" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFF0A8"/><stop offset=".55" stop-color="#D99A1E"/><stop offset="1" stop-color="#1a0606"/></radialGradient><linearGradient id="as2k" x1="0" x2="1"><stop offset="0" stop-color="#8A6A2A"/><stop offset=".5" stop-color="#F7E09A"/><stop offset="1" stop-color="#8A6A2A"/></linearGradient><radialGradient id="as3g" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#9BF0B0"/><stop offset=".55" stop-color="#1E7A3A"/><stop offset="1" stop-color="#1a0606"/></radialGradient><linearGradient id="as3k" x1="0" x2="1"><stop offset="0" stop-color="#8A6A2A"/><stop offset=".5" stop-color="#F7E09A"/><stop offset="1" stop-color="#8A6A2A"/></linearGradient></defs><g class="top" style="transform-origin:22px 0"><line x1="22" y1="0" x2="22" y2="120" stroke="#D9B65E" stroke-width="1.4"/><rect x="16" y="118" width="12" height="9" rx="2" fill="url(#as1k)"/><circle cx="22" cy="142" r="18" fill="url(#as1g)"/><ellipse cx="15.7" cy="134.8" rx="5.0" ry="3.2" fill="#fff" opacity=".75" transform="rotate(-30 15.7 134.8)"/><path d="M6.7 143.8 Q22 150.1 37.3 143.8" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/></g><g class="top" style="transform-origin:62px 0"><line x1="62" y1="0" x2="62" y2="70" stroke="#D9B65E" stroke-width="1.4"/><rect x="56" y="68" width="12" height="9" rx="2" fill="url(#as2k)"/><circle cx="62" cy="88" r="14" fill="url(#as2g)"/><ellipse cx="57.1" cy="82.4" rx="3.9" ry="2.5" fill="#fff" opacity=".75" transform="rotate(-30 57.1 82.4)"/><path d="M50.1 89.4 Q62 94.3 73.9 89.4" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/></g><g class="top" style="transform-origin:98px 0"><line x1="98" y1="0" x2="98" y2="150" stroke="#D9B65E" stroke-width="1.4"/><rect x="92" y="148" width="12" height="9" rx="2" fill="url(#as3k)"/><circle cx="98" cy="168" r="13" fill="url(#as3g)"/><ellipse cx="93.5" cy="162.8" rx="3.6" ry="2.3" fill="#fff" opacity=".75" transform="rotate(-30 93.5 162.8)"/><path d="M87.0 169.3 Q98 173.8 109.0 169.3" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/></g></svg>
+  <svg class="asili sag" viewBox="0 0 120 210"><defs><radialGradient id="bs1g" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFF0A8"/><stop offset=".55" stop-color="#D99A1E"/><stop offset="1" stop-color="#1a0606"/></radialGradient><linearGradient id="bs1k" x1="0" x2="1"><stop offset="0" stop-color="#8A6A2A"/><stop offset=".5" stop-color="#F7E09A"/><stop offset="1" stop-color="#8A6A2A"/></linearGradient><radialGradient id="bs2g" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FF8A7A"/><stop offset=".55" stop-color="#C8141F"/><stop offset="1" stop-color="#1a0606"/></radialGradient><linearGradient id="bs2k" x1="0" x2="1"><stop offset="0" stop-color="#8A6A2A"/><stop offset=".5" stop-color="#F7E09A"/><stop offset="1" stop-color="#8A6A2A"/></linearGradient><radialGradient id="bs3g" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#9BF0B0"/><stop offset=".55" stop-color="#1E7A3A"/><stop offset="1" stop-color="#1a0606"/></radialGradient><linearGradient id="bs3k" x1="0" x2="1"><stop offset="0" stop-color="#8A6A2A"/><stop offset=".5" stop-color="#F7E09A"/><stop offset="1" stop-color="#8A6A2A"/></linearGradient></defs><g class="top" style="transform-origin:24px 0"><line x1="24" y1="0" x2="24" y2="140" stroke="#D9B65E" stroke-width="1.4"/><rect x="18" y="138" width="12" height="9" rx="2" fill="url(#bs1k)"/><circle cx="24" cy="158" r="13" fill="url(#bs1g)"/><ellipse cx="19.4" cy="152.8" rx="3.6" ry="2.3" fill="#fff" opacity=".75" transform="rotate(-30 19.4 152.8)"/><path d="M13.0 159.3 Q24 163.8 35.0 159.3" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/></g><g class="top" style="transform-origin:60px 0"><line x1="60" y1="0" x2="60" y2="80" stroke="#D9B65E" stroke-width="1.4"/><rect x="54" y="78" width="12" height="9" rx="2" fill="url(#bs2k)"/><circle cx="60" cy="104" r="20" fill="url(#bs2g)"/><ellipse cx="53.0" cy="96.0" rx="5.6" ry="3.6" fill="#fff" opacity=".75" transform="rotate(-30 53.0 96.0)"/><path d="M43.0 106.0 Q60 113.0 77.0 106.0" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/></g><g class="top" style="transform-origin:98px 0"><line x1="98" y1="0" x2="98" y2="110" stroke="#D9B65E" stroke-width="1.4"/><rect x="92" y="108" width="12" height="9" rx="2" fill="url(#bs3k)"/><circle cx="98" cy="130" r="16" fill="url(#bs3g)"/><ellipse cx="92.4" cy="123.6" rx="4.5" ry="2.9" fill="#fff" opacity=".75" transform="rotate(-30 92.4 123.6)"/><path d="M84.4 131.6 Q98 137.2 111.6 131.6" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/></g></svg>
+  <img class="agac" src="/gorseller/agac.webp" width="600" height="990" alt="" loading="lazy" decoding="async">
+  <img class="kose-sag" src="/gorseller/sag-susler.webp" width="402" height="500" alt="" loading="lazy" decoding="async">
 </div>
 
 <canvas id="yigin" aria-hidden="true"></canvas>
@@ -415,7 +468,7 @@ footer { margin-top: 60px; text-align: center; color: var(--soluk); font-size: 1
 <div class="kabuk">
   <div class="zincir" aria-hidden="true"><svg id="buzSvg" preserveAspectRatio="none"></svg><svg id="zincirSvg" preserveAspectRatio="none" style="position:relative"></svg></div>
   <header class="ust">
-    <a class="logo" href="/">Yılbaşı <span>Çekilişi</span></a>
+    <span id="evYeri"></span>
     <button class="btn ince" id="navNasil" aria-label="Nasıl oynanır?"><span class="uzun">Nasıl oynanır?</span><span class="kisa" aria-hidden="true">?</span></button>
   </header>
   <main id="uygulama"></main>
@@ -456,6 +509,7 @@ const SAPKA = `<svg class="sapka" viewBox="0 0 40 34" aria-hidden="true"><path d
 function avatar(isim) {
   return `<span class="avatar" style="background:${AVATAR[ozet(isim) % AVATAR.length]}" aria-hidden="true">${metin(basHarf(isim))}${SAPKA}</span>`;
 }
+if (odaKodu) $('#evYeri').outerHTML = '<a class="btn ince ev-btn" href="/" aria-label="Ana sayfa">🏠</a>';
 if (odaKodu && params.get('t')) { yaz('token:' + odaKodu, params.get('t')); history.replaceState(null, '', '/?oda=' + odaKodu); }
 
 // ---------- SVG çizimler ----------
@@ -721,9 +775,9 @@ function pencere(icerik, butonlar) {
     document.addEventListener('keydown', tus); document.body.append(p); $('.butonlar button:last-child', p).focus();
   });
 }
-const onayla = (ust, baslik, mesaj, evet) => pencere(`<span class="etiket-ust">${ust}</span><h3 id="p-baslik">${baslik}</h3><p>${mesaj}</p>`,
+const onayla = (ust, baslik, mesaj, evet) => pencere(`<h3 class="plaka" id="p-baslik">${ust}</h3><h3 style="font-size:26px;margin:4px 0 10px;text-align:center">${baslik}</h3><p style="text-align:center">${mesaj}</p>`,
   [{ yazi: 'Vazgeç', sinif: 'metin-btn', deger: false }, { yazi: evet, deger: true }]);
-$('#navNasil').onclick = () => pencere(`<span class="etiket-ust">🎅 Rehber</span><h3 id="p-baslik">Nasıl oynanır?</h3><ol>
+$('#navNasil').onclick = () => pencere(`<h3 class="plaka" id="p-baslik">Nasıl oynanır?</h3><span class="kose-sus" aria-hidden="true">🎅</span><ol>
   <li><span><b>Çekilişi oluştur</b> ve kodu ya da linki arkadaşlarınla paylaş.</span></li>
   <li><span><b>Herkes lobiye katılır</b> ve adını yazar.</span></li>
   <li><span><b>Yönetici eşleştirmeyi başlatır.</b> Kimse kendine çıkmaz.</span></li>
@@ -750,13 +804,15 @@ function anaSayfa() {
     </section>
     <div class="ikili">
       <section class="kart sicak" id="olustur" aria-labelledby="ol-b">
-        <div class="kart-baslik">${IKON_AGAC}<div><h2 id="ol-b">Çekiliş oluştur</h2><p>Lobiyi sen kur, eşleştirmeyi sen başlat.</p></div></div>
+        <h2 class="plaka" id="ol-b">Çekiliş oluştur</h2><span class="kose-sus" aria-hidden="true">🎄</span>
+        <p class="alt-yazi">Lobiyi sen kur, eşleştirmeyi sen başlat.</p>
         <label class="etiket" for="ad">Çekilişin adı</label>
         <div class="girdi-sar"><input class="girdi" id="ad" placeholder="Ofis Yılbaşı 2027" maxlength="60" autocomplete="off"><button class="btn" id="olusturBtn">Oluştur</button></div>
         <div class="hata" id="h1" role="alert"></div>
       </section>
       <section class="kart" id="kodla" aria-labelledby="kd-b">
-        <div class="kart-baslik">${IKON_ANAHTAR}<div><h2 id="kd-b">Kodla katıl</h2><p>Sana gelen 6 haneli kodu yaz.</p></div></div>
+        <h2 class="plaka" id="kd-b">Kodla katıl</h2><span class="kose-sus" aria-hidden="true">🎁</span>
+        <p class="alt-yazi">Sana gelen 6 haneli kodu yaz.</p>
         <div class="kod-alan" id="kodAlan"><label class="sr" for="kodGir">Çekiliş kodu, 6 karakter</label>
           <input id="kodGir" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false">
           <div class="hucreler" aria-hidden="true">${'<span class="hucre"></span>'.repeat(6)}</div></div>
@@ -813,19 +869,20 @@ function odaSayfasi() {
   let durum;
   if (!b && !o.cekildi) {
     durum = el(`<section class="kart sicak durum" aria-labelledby="d-b">
-      <span class="etiket-ust">✨ Hoş geldin</span><h2 id="d-b">Çekilişe katıl</h2><p>Adını yaz ve listeye gir. Eşleştirme başladığında sandığın hazır olacak.</p>
+      <h2 class="plaka" id="d-b">Çekilişe katıl</h2><span class="kose-sus" aria-hidden="true">⛄</span><p class="alt-yazi">Adını yaz ve listeye gir. Eşleştirme başladığında sandığın hazır olacak.</p>
       <label class="etiket" for="isim">Adın</label>
       <div class="girdi-sar"><input class="girdi" id="isim" placeholder="Ayşe Y." maxlength="40" autocomplete="name"><button class="btn" id="katilBtn">Katıl</button></div>
       <div class="hata" id="hk" role="alert"></div></section>`);
   } else if (b && !o.cekildi) {
     durum = el(`<section class="kart durum" aria-labelledby="d-b">
-      <span class="etiket-ust yesil">Hazırsın, ${metin(b.isim)} 🎉</span><h2 id="d-b">Eşleştirme bekleniyor</h2>
+      <h2 class="plaka" id="d-b">Bekleme odası</h2><span class="kose-sus" aria-hidden="true">⛄</span>
+      <span class="etiket-ust yesil">Hazırsın, ${metin(b.isim)} 🎉</span><h2>Eşleştirme bekleniyor</h2>
       <p>Yönetici eşleştirmeyi başlattığında sandığın burada belirecek. Sayfa açık kalırsa kendiliğinden güncellenir.</p>
       <div class="bekleme"><span class="celenk-mini">${celenkSvg()}</span><div><b>Herkes toplanıyor…</b><span>Şu an ${n} kişi katıldı</span></div></div>
       ${kisiselLinkHtml()}
     </section>`);
   } else if (b && o.cekildi) {
-    durum = el(`<section class="kart sicak durum" aria-labelledby="d-b"><div class="sandik-hazir">
+    durum = el(`<section class="kart sicak durum" aria-labelledby="d-p"><h2 class="plaka" id="d-p">${b.acti ? 'Hediyen' : 'Sandığın hazır'}</h2><span class="kose-sus" aria-hidden="true">🎁</span><div class="sandik-hazir">
       <div class="sandik-kap salin">${sandikSvg()}</div>
       <div><span class="etiket-ust">${b.acti ? '🎁 Sandık açıldı' : '✨ Eşleştirme tamam'}</span>
         <h2 id="d-b">${b.acti ? 'Hediye alacağın kişi' : 'Sandığın hazır!'}</h2>
@@ -833,7 +890,7 @@ function odaSayfasi() {
         <button class="btn buyuk${b.acti ? ' ince' : ''}" id="acBtn">${b.acti ? 'Açılışı tekrar izle' : '🎁 Sandığı aç'}</button></div>
     </div>${kisiselLinkHtml()}</section>`);
   } else {
-    durum = el(`<section class="kart durum"><span class="etiket-ust">Katılım kapandı</span><h2>Eşleştirme tamamlandı</h2>
+    durum = el(`<section class="kart durum"><h2 class="plaka">Katılım kapandı</h2><h2>Eşleştirme tamamlandı</h2>
       <p>Bu çekilişe artık katılım yok. Katıldıysan, katıldığın cihazdan ya da kişisel linkinle gir.</p></section>`);
   }
   sol.append(durum);
@@ -858,7 +915,8 @@ function odaSayfasi() {
   if (S.yk) {
     const yeterli = n >= 3;
     const y = el(`<section class="kart" aria-labelledby="y-b">
-      <div class="kart-ust"><h3 id="y-b">🎅 Çekiliş yöneticisi</h3><span class="soluk" style="font-size:14px">Yalnızca sen görüyorsun</span></div>
+      <h3 class="plaka" id="y-b">Yönetici</h3><span class="kose-sus" aria-hidden="true">🎅</span>
+      <p class="alt-yazi">Yalnızca sen görüyorsun</p>
       <div class="davet"><span class="etiket-ust">Davet linki</span><code>${metin(odaLinki(odaKodu))}</code><button class="btn altin" id="linkKopya">Kopyala</button></div>
       ${o.cekildi ? `<div class="satir-yazi"><span>Açılan sandıklar</span><span>${acan}/${n}</span></div><div class="ilerleme"><i style="width:${n ? acan / n * 100 : 0}%"></i></div>`
         : `<div class="satir-yazi"><span>Katılanlar</span><span>${n} kişi ${yeterli ? '· hazır ✓' : '· en az 3 gerekli'}</span></div><div class="ilerleme"><i style="width:${Math.min(100, n / 3 * 100)}%"></i></div>
@@ -870,7 +928,7 @@ function odaSayfasi() {
     if ($('#eslestirBtn')) $('#eslestirBtn').onclick = eslestirmeSahnesi;
   }
 
-  const p = el(`<section class="kart" aria-labelledby="l-b"><div class="kart-ust"><h3 id="l-b">Katılanlar</h3><span class="cip">${n} kişi</span></div><div class="lobi-liste" role="list"></div></section>`);
+  const p = el(`<section class="kart" aria-labelledby="l-b"><h3 class="plaka" id="l-b">Katılanlar · ${n}</h3><span class="kose-sus sol" aria-hidden="true">🔔</span><div class="lobi-liste" role="list"></div></section>`);
   const liste = $('.lobi-liste', p);
   if (!n) liste.append(el('<div class="bos">Henüz kimse yok — ilk sen katıl! ⛄</div>'));
   o.katilimcilar.forEach((k, i) => {
@@ -882,7 +940,7 @@ function odaSayfasi() {
       const x = el(`<button class="at-btn" aria-label="${metin(k.isim)} adlı kişiyi listeden çıkar">✕</button>`);
       x.onclick = async () => {
         if (!(await onayla('Liste', 'Kişiyi çıkar?', `<b>${metin(k.isim)}</b> listeden çıkarılacak.`, 'Çıkar'))) return;
-        try { await istek(`odalar/${odaKodu}/cikar`, { yoneticiAnahtari: S.yk, id: k.id }); yukle(true); } catch (e) { pencere(`<h3 id="p-baslik">Olmadı</h3><p>${metin(e.message)}</p>`, [{ yazi: 'Tamam', deger: 1 }]); }
+        try { await istek(`odalar/${odaKodu}/cikar`, { yoneticiAnahtari: S.yk, id: k.id }); yukle(true); } catch (e) { pencere(`<h3 class="plaka" id="p-baslik">Olmadı</h3><p style="text-align:center">${metin(e.message)}</p>`, [{ yazi: 'Tamam', deger: 1 }]); }
       };
       r.append(x);
     }
