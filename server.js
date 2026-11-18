@@ -79,7 +79,7 @@ function odaOzeti(oda) {
     kod: oda.kod,
     ad: oda.ad,
     cekildi: oda.cekildi,
-    katilimcilar: oda.katilimcilar.map((k) => ({ id: k.id, isim: k.isim })),
+    katilimcilar: oda.katilimcilar.map((k) => ({ id: k.id, isim: k.isim, acti: k.acildi || null })),
   };
 }
 
@@ -129,12 +129,21 @@ async function api(req, res, parcalar, url) {
     const ben = oda.katilimcilar.find((k) => esit(k.token, token));
     if (!ben) return hata(res, 404, 'Katılımcı bulunamadı.');
     const hedef = oda.cekildi ? oda.katilimcilar.find((k) => k.id === oda.eslesme[ben.id]) : null;
-    return json(res, 200, { id: ben.id, isim: ben.isim, cekildi: oda.cekildi, hedef: hedef ? hedef.isim : null });
+    return json(res, 200, { id: ben.id, isim: ben.isim, cekildi: oda.cekildi, hedef: hedef ? hedef.isim : null, acti: ben.acildi || null });
   }
 
   if (req.method !== 'POST') return hata(res, 405, 'Desteklenmeyen istek');
   const b = await govdeOku(req);
   const yonetici = () => esit(oda.yoneticiAnahtari, String(b.yoneticiAnahtari || ''));
+
+  // POST /api/odalar/:kod/ac  {token} — katılımcı sandığını açtı (kime çıktığı paylaşılmaz)
+  if (islem === 'ac') {
+    if (!oda.cekildi) return hata(res, 409, 'Çekiliş henüz yapılmadı.');
+    const ben = oda.katilimcilar.find((k) => esit(k.token, String(b.token || '')));
+    if (!ben) return hata(res, 404, 'Katılımcı bulunamadı.');
+    if (!ben.acildi) { ben.acildi = Date.now(); await kaydet(); }
+    return json(res, 200, { acti: ben.acildi });
+  }
 
   // POST /api/odalar/:kod/katil  {isim}
   if (islem === 'katil') {
