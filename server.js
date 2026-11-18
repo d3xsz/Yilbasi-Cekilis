@@ -201,6 +201,15 @@ const sunucu = http.createServer(async (req, res) => {
       const parcalar = url.pathname.slice(5).split('/').filter(Boolean).map(decodeURIComponent);
       return await api(req, res, parcalar, url);
     }
+    // Görseller: /gorseller/... (yalnızca bu klasör, alt klasöre kaçış yok)
+    if (req.method === 'GET' && url.pathname.startsWith('/gorseller/')) {
+      const ad = path.basename(decodeURIComponent(url.pathname));
+      const tur = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' }[path.extname(ad).toLowerCase()];
+      const dosya = path.join(__dirname, 'public', 'gorseller', ad);
+      if (!tur || !fs.existsSync(dosya)) return hata(res, 404, 'Bulunamadı');
+      res.writeHead(200, { 'Content-Type': tur, 'Cache-Control': 'public, max-age=86400' });
+      return fs.createReadStream(dosya).pipe(res);
+    }
     if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
       return res.end(fs.readFileSync(path.join(__dirname, 'public', 'index.html')));
