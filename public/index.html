@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#050B0B">
-<title>Gizli Hediye · Yılbaşı Çekilişi</title>
+<title>Kim Kime? · Yılbaşı Çekilişi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* =========================================================
-   GİZLİ HEDİYE — yılbaşı etkinliği
+   KİM KİME? — yılbaşı çekilişi
    Gece · kar · kırmızı / yeşil / altın · 3D sandık
    ========================================================= */
 :root {
@@ -415,9 +415,9 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--cizgi)
 <div class="kabuk">
   <div class="zincir" aria-hidden="true"><svg id="zincirSvg" preserveAspectRatio="none"></svg></div>
   <header class="ust">
-    <a class="logo" href="/" aria-label="Gizli Hediye ana sayfa">
+    <a class="logo" href="/" aria-label="Kim Kime? ana sayfa">
       <span class="logo-hex" aria-hidden="true">🎁</span>
-      <span class="logo-ad">GİZLİ HEDİYE<small>YILBAŞI ÇEKİLİŞİ</small></span>
+      <span class="logo-ad">KİM KİME?<small>YILBAŞI ÇEKİLİŞİ</small></span>
     </a>
     <button class="cizgi-btn" id="navNasil" aria-label="Nasıl oynanır?"><span class="uzun">Nasıl oynanır?</span><span class="kisa" aria-hidden="true">?</span></button>
   </header>
@@ -626,7 +626,7 @@ $('#navNasil').onclick = () => pencere(`<span class="ust-etiket">Rehber</span><h
 // ANA SAYFA
 // =========================================================
 function anaSayfa() {
-  document.title = 'Gizli Hediye · Yılbaşı Çekilişi';
+  document.title = 'Kim Kime? · Yılbaşı Çekilişi';
   uyg.innerHTML = `
     <section class="hero" aria-labelledby="hero-b">
       <div>
@@ -692,7 +692,7 @@ function kisiselLinkHtml() {
 }
 function odaSayfasi() {
   const o = S.oda, b = S.ben, n = o.katilimcilar.length, acan = o.katilimcilar.filter((k) => k.acti).length;
-  document.title = `${o.ad} · Gizli Hediye`;
+  document.title = `${o.ad} · Kim Kime?`;
   uyg.innerHTML = `<section class="oda-ust" aria-labelledby="oda-b">
       <div>
         <span class="ust-etiket kirmizi">Yılbaşı çekilişi · Lobi</span>

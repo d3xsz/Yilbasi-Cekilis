@@ -1,4 +1,4 @@
-# 🎄 Yılbaşı Çekilişi — Kurulum
+﻿# 🎄 Kim Kime? — Yılbaşı Çekilişi
 
 ## Kendi bilgisayarında çalıştırma
 ```
