@@ -3,70 +3,165 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080D18">
 <title>Yılbaşı Çekilişi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f2a1f; --kart: #ffffff; --yazi: #1c2420; --soluk: #5d6b64;
-    --kirmizi: #c0392b; --kirmizi-koyu: #962d22; --yesil: #1f7a4d; --cizgi: #e3e8e5;
+    --bg: #080D18; --bg2: #101a33;
+    --kirmizi: #D92F45; --kirmizi-koyu: #b8233a; --yesil: #167C59; --altin: #F4C96B;
+    --yazi: #EEF2FA; --soluk: #9AA6BD; --altin-yazi: #F4C96B;
+    --kart: rgba(255,255,255,.06); --kart-kenar: rgba(255,255,255,.12);
+    --girdi: rgba(255,255,255,.07); --girdi-kenar: rgba(255,255,255,.16);
+    --golge: 0 20px 50px rgba(0,0,0,.45);
+    --kar: rgba(255,255,255,.85);
+    --baslik: 'Unbounded', 'Outfit', system-ui, sans-serif;
+  }
+  :root[data-tema="acik"] {
+    --bg: #EEF2F8; --bg2: #dfe7f3;
+    --yazi: #121a2b; --soluk: #5b6780; --altin-yazi: #94650f;
+    --kart: rgba(255,255,255,.72); --kart-kenar: rgba(18,26,43,.10);
+    --girdi: rgba(255,255,255,.9); --girdi-kenar: rgba(18,26,43,.18);
+    --golge: 0 18px 40px rgba(30,45,80,.15);
+    --kar: rgba(120,150,200,.55);
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    margin: 0; min-height: 100vh; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    background: radial-gradient(circle at 20% 0%, #1d4a36, var(--bg) 60%); color: var(--yazi);
-    display: flex; justify-content: center; padding: 32px 16px;
+    margin: 0; min-height: 100vh; color: var(--yazi);
+    font-family: 'Outfit', system-ui, -apple-system, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(900px 500px at 15% -10%, color-mix(in srgb, var(--kirmizi) 22%, transparent), transparent 70%),
+      radial-gradient(800px 500px at 100% 10%, color-mix(in srgb, var(--yesil) 25%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--bg), var(--bg2));
+    background-attachment: fixed;
   }
-  main { width: 100%; max-width: 520px; }
-  h1 { color: #fff; text-align: center; font-size: 30px; margin: 0 0 4px; }
-  .alt { color: #cfe3d8; text-align: center; margin: 0 0 24px; }
-  .kart { background: var(--kart); border-radius: 14px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
-  .kart h2 { margin: 0 0 12px; font-size: 18px; }
-  label { display: block; font-size: 14px; color: var(--soluk); margin-bottom: 6px; }
-  .satir { display: flex; gap: 8px; }
+  #kar { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .sarmal { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 16px 48px; }
+
+  /* ---------- Navigasyon ---------- */
+  nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--yazi); text-decoration: none; font-family: var(--baslik); font-weight: 800; font-size: 16px; letter-spacing: .3px; }
+  .logo-ikon { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; font-size: 19px;
+    background: linear-gradient(135deg, var(--kirmizi), #8f1d2f); box-shadow: 0 6px 18px color-mix(in srgb, var(--kirmizi) 45%, transparent); }
+  .menu { display: flex; align-items: center; gap: 4px; }
+  .menu button { background: transparent; color: var(--soluk); padding: 9px 12px; font-weight: 500; border-radius: 10px; }
+  .menu button:hover { background: var(--kart); color: var(--yazi); }
+  .menu .tema { width: 40px; height: 40px; padding: 0; font-size: 18px; border: 1px solid var(--kart-kenar); }
+  @media (max-width: 560px) { .menu .yazi-buton span { display: none; } .menu .yazi-buton { padding: 9px 10px; font-size: 18px; } }
+  @media (min-width: 561px) { .menu .yazi-buton i { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero { text-align: center; padding: 28px 0 28px; }
+  .rozet-ust { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 600;
+    color: var(--altin-yazi); background: color-mix(in srgb, var(--altin) 12%, transparent); border: 1px solid color-mix(in srgb, var(--altin) 35%, transparent); }
+  .hero h1 { font-family: var(--baslik); font-weight: 800; font-size: clamp(32px, 7vw, 60px); line-height: 1.05; margin: 18px 0 12px; letter-spacing: -.5px; }
+  .hero h1 .renkli { background: linear-gradient(90deg, var(--kirmizi), var(--altin)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { color: var(--soluk); font-size: 17px; max-width: 520px; margin: 0 auto; line-height: 1.5; }
+
+  /* ---------- Kartlar ---------- */
+  .izgara { display: grid; gap: 18px; max-width: 620px; margin: 0 auto; }
+  .kart {
+    background: var(--kart); border: 1px solid var(--kart-kenar); border-radius: 22px; padding: 24px;
+    backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); box-shadow: var(--golge);
+  }
+  .kart.ana { border-color: color-mix(in srgb, var(--altin) 35%, var(--kart-kenar)); position: relative; overflow: hidden; }
+  .kart.ana::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+    background: linear-gradient(90deg, var(--kirmizi), var(--altin), var(--yesil)); }
+  .kart h2 { font-family: var(--baslik); font-weight: 600; font-size: 19px; margin: 0 0 14px; }
+  .kart h2 small { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 14px; color: var(--soluk); }
+  label { display: block; font-size: 14px; color: var(--soluk); margin-bottom: 8px; }
+  .satir { display: flex; gap: 10px; }
+  @media (max-width: 420px) { .satir { flex-direction: column; } }
   input {
-    flex: 1; min-width: 0; font: inherit; padding: 11px 12px; border: 1px solid #cdd6d1; border-radius: 9px;
+    flex: 1; min-width: 0; font: inherit; font-size: 16px; color: var(--yazi); padding: 13px 14px;
+    background: var(--girdi); border: 1px solid var(--girdi-kenar); border-radius: 12px;
   }
-  input:focus { outline: 2px solid var(--yesil); border-color: transparent; }
-  button {
-    font: inherit; font-weight: 600; border: 0; border-radius: 9px; padding: 11px 16px; cursor: pointer;
-    background: var(--kirmizi); color: #fff; white-space: nowrap;
-  }
+  input::placeholder { color: var(--soluk); opacity: .8; }
+  input:focus { outline: 2px solid var(--altin); outline-offset: 1px; border-color: transparent; }
+  button { font: inherit; font-weight: 600; border: 0; border-radius: 12px; padding: 13px 18px; cursor: pointer; white-space: nowrap;
+    background: var(--kirmizi); color: #fff; transition: transform .12s, background .2s, box-shadow .2s; }
   button:hover { background: var(--kirmizi-koyu); }
-  button:disabled { background: #b9c2bd; cursor: not-allowed; }
-  button.ikincil { background: #edf1ef; color: var(--yazi); }
-  button.ikincil:hover { background: #dfe5e2; }
-  button.kucuk { padding: 4px 10px; font-size: 13px; }
+  button:active { transform: scale(.97); }
+  button:disabled { background: color-mix(in srgb, var(--soluk) 35%, transparent); color: var(--soluk); cursor: not-allowed; transform: none; box-shadow: none; }
+  button.ikincil { background: var(--girdi); color: var(--yazi); border: 1px solid var(--girdi-kenar); }
+  button.ikincil:hover { background: var(--kart-kenar); }
+  button.kucuk { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
   button.genis { width: 100%; }
-  .hata { color: var(--kirmizi); font-size: 14px; margin-top: 8px; min-height: 1em; }
-  .bilgi { color: var(--soluk); font-size: 14px; }
-  ul.liste { list-style: none; padding: 0; margin: 0; }
-  ul.liste li { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--cizgi); }
-  ul.liste li:last-child { border-bottom: 0; }
-  .kod { font-family: ui-monospace, Consolas, monospace; font-size: 22px; letter-spacing: 3px; font-weight: 700; }
-  .baglanti { font-family: ui-monospace, Consolas, monospace; font-size: 13px; word-break: break-all; background: #f3f6f4; padding: 8px; border-radius: 7px; }
-  .rozet { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; background: #e8f3ec; color: var(--yesil); font-weight: 600; }
-  .sonuc { text-align: center; padding: 12px 0; }
-  .sonuc .hedef { font-size: 34px; font-weight: 800; color: var(--kirmizi); margin: 8px 0; }
-  .ayrac { text-align: center; color: #cfe3d8; margin: 8px 0 16px; }
+  button:focus-visible { outline: 2px solid var(--altin); outline-offset: 2px; }
+  .buyuk-buton {
+    width: 100%; padding: 18px; font-size: 18px; font-family: var(--baslik); font-weight: 600; letter-spacing: .3px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--kirmizi) 0%, #c02139 55%, #b4882f 100%);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--kirmizi) 45%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--altin) 55%, transparent);
+  }
+  .buyuk-buton:hover:not(:disabled) { background: linear-gradient(135deg, #e63c52 0%, #cc2840 55%, #c59737 100%);
+    box-shadow: 0 14px 36px color-mix(in srgb, var(--kirmizi) 55%, transparent), inset 0 0 0 1px var(--altin); }
+  .hata { color: #ff7d8d; font-size: 14px; margin-top: 10px; min-height: 1em; }
+  .bilgi { color: var(--soluk); font-size: 14px; line-height: 1.5; }
+  .ayrac { display: flex; align-items: center; gap: 12px; color: var(--soluk); font-size: 13px; }
+  .ayrac::before, .ayrac::after { content: ""; flex: 1; height: 1px; background: var(--kart-kenar); }
+  .kod { font-family: var(--baslik); font-size: 30px; letter-spacing: 6px; font-weight: 800; color: var(--altin-yazi); }
+  .baglanti { font-family: ui-monospace, Consolas, monospace; font-size: 13px; word-break: break-all; background: var(--girdi);
+    border: 1px dashed var(--girdi-kenar); padding: 10px; border-radius: 10px; }
+  .rozet { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 99px; font-weight: 600;
+    background: color-mix(in srgb, var(--yesil) 22%, transparent); color: #4fd39f; border: 1px solid color-mix(in srgb, var(--yesil) 50%, transparent); }
+  :root[data-tema="acik"] .rozet { color: var(--yesil); }
   .gizli { display: none !important; }
+  a { color: var(--altin-yazi); }
+  .ortala { text-align: center; }
+
+  /* ---------- Katılımcı avatarları ---------- */
+  .avatarlar { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+  .avatar-kart { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 8px 12px;
+    background: var(--girdi); border: 1px solid var(--kart-kenar); border-radius: 16px; animation: belir .35s ease both; }
+  .avatar-kart.sen { border-color: color-mix(in srgb, var(--altin) 60%, transparent); }
+  .avatar { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 17px; color: #fff;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.18); }
+  .avatar-isim { font-size: 14px; font-weight: 500; text-align: center; overflow-wrap: anywhere; line-height: 1.2; }
+  .avatar-kart .cikar { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; padding: 0; border-radius: 50%; font-size: 13px; line-height: 1;
+    background: transparent; color: var(--soluk); }
+  .avatar-kart .cikar:hover { background: var(--kirmizi); color: #fff; }
+  @keyframes belir { from { opacity: 0; transform: translateY(6px) scale(.96); } }
+  .bos { color: var(--soluk); text-align: center; padding: 18px 0; }
+
+  /* ---------- Rulet ---------- */
+  .rulet { position: relative; height: 92px; border-radius: 18px; overflow: hidden; margin: 6px 0 16px;
+    background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.05) 30%, rgba(0,0,0,.05) 70%, rgba(0,0,0,.25)), var(--girdi);
+    border: 1px solid color-mix(in srgb, var(--altin) 45%, transparent); display: grid; place-items: center; }
+  .rulet::before, .rulet::after { content: "▶"; position: absolute; top: 50%; transform: translateY(-50%); color: var(--altin); font-size: 14px; }
+  .rulet::before { left: 12px; } .rulet::after { right: 12px; transform: translateY(-50%) scaleX(-1); }
+  .rulet-isim { font-family: var(--baslik); font-weight: 800; font-size: clamp(22px, 6vw, 32px); padding: 0 36px; text-align: center; overflow-wrap: anywhere; }
+  .rulet-isim.don { animation: don .09s linear; }
+  @keyframes don { from { transform: translateY(-60%); opacity: .2; filter: blur(2px); } to { transform: none; opacity: 1; } }
+  .rulet.bitti { border-color: var(--altin); box-shadow: 0 0 0 4px color-mix(in srgb, var(--altin) 18%, transparent), 0 0 40px color-mix(in srgb, var(--altin) 30%, transparent); }
+  .rulet.bitti .rulet-isim { color: var(--altin-yazi); animation: parla .6s ease; }
+  @keyframes parla { 0% { transform: scale(.6); } 60% { transform: scale(1.12); } 100% { transform: none; } }
 
   /* ---------- Hediye kutusu ---------- */
-  .sahne { position: relative; height: 340px; margin: 4px auto 0; max-width: 300px; user-select: none;
+  .sonuc { text-align: center; }
+  .sahne { position: relative; height: 330px; margin: 4px auto 0; max-width: 300px; user-select: none;
     -webkit-tap-highlight-color: transparent; cursor: pointer; touch-action: manipulation; }
-  .hediye { position: absolute; left: 50%; bottom: 20px; width: 170px; height: 150px; margin-left: -85px; }
-  .hediye .govde { position: absolute; inset: 40px 8px 0; background: linear-gradient(135deg, #e04a3a, #b02a1c);
-    border-radius: 6px 6px 10px 10px; z-index: 3; box-shadow: inset 0 -12px 0 rgba(0,0,0,.12); }
-  .hediye .govde::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 26px;
-    margin-left: -13px; background: #f4c542; }
+  .sahne::after { content: ""; position: absolute; left: 50%; bottom: 8px; width: 200px; height: 24px; margin-left: -100px; border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--altin) 35%, transparent), transparent); }
+  .hediye { position: absolute; left: 50%; bottom: 20px; width: 170px; height: 150px; margin-left: -85px; z-index: 1; }
+  .hediye .govde { position: absolute; inset: 40px 8px 0; background: linear-gradient(135deg, #ea4a5e, #a91f33);
+    border-radius: 6px 6px 12px 12px; z-index: 3; box-shadow: inset 0 -14px 0 rgba(0,0,0,.14); }
+  .hediye .govde::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 26px; margin-left: -13px;
+    background: linear-gradient(90deg, #e2b14f, var(--altin), #e2b14f); }
   .hediye .kapak { position: absolute; left: 0; right: 0; top: 18px; height: 34px; z-index: 5;
-    background: linear-gradient(135deg, #ef5a49, #c0392b); border-radius: 6px;
-    box-shadow: 0 4px 0 rgba(0,0,0,.15); transition: transform .7s cubic-bezier(.2,.9,.3,1.3), opacity .7s; }
-  .hediye .kapak::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 28px;
-    margin-left: -14px; background: #f4c542; }
+    background: linear-gradient(135deg, #f05c70, var(--kirmizi)); border-radius: 7px;
+    box-shadow: 0 4px 0 rgba(0,0,0,.18); transition: transform .7s cubic-bezier(.2,.9,.3,1.3), opacity .7s; }
+  .hediye .kapak::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 28px; margin-left: -14px;
+    background: linear-gradient(90deg, #e2b14f, var(--altin), #e2b14f); }
   .fiyonk { position: absolute; left: 50%; top: -26px; width: 0; height: 0; }
   .fiyonk::before, .fiyonk::after { content: ""; position: absolute; top: 0; width: 38px; height: 28px;
-    border: 7px solid #f4c542; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; }
+    border: 7px solid var(--altin); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; }
   .fiyonk::before { right: 2px; transform: rotate(-20deg); }
   .fiyonk::after { left: 2px; transform: rotate(20deg); }
+  .sahne:not(.acik) .hediye { animation: suzul 3s ease-in-out infinite; }
+  @keyframes suzul { 50% { transform: translateY(-6px); } }
   .sahne.salla .hediye { animation: salla .45s ease; }
   @keyframes salla {
     0%,100% { transform: rotate(0) } 20% { transform: rotate(-9deg) translateY(-6px) }
@@ -76,30 +171,56 @@
   @keyframes titre { 0%,100% { transform: translate(0,0) } 25% { transform: translate(-2px,1px) } 75% { transform: translate(2px,-1px) } }
   .sahne.acik .kapak { transform: translate(70px,-190px) rotate(40deg); opacity: 0; }
   .sahne.acik { cursor: default; }
-  .not { position: absolute; left: 50%; bottom: 60px; width: 250px; margin-left: -125px; z-index: 4;
-    background: #fffdf5; border: 2px dashed #f4c542; border-radius: 12px; padding: 14px 12px; text-align: center;
-    opacity: 0; transform: translateY(40px) scale(.4);
+  .not { position: absolute; left: 50%; bottom: 60px; width: 260px; margin-left: -130px; z-index: 4;
+    background: linear-gradient(180deg, #fffaf0, #fff3d6); color: #1a1f2e; border: 2px solid var(--altin); border-radius: 16px; padding: 14px 12px; text-align: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,.35); opacity: 0; transform: translateY(40px) scale(.4);
     transition: transform .8s cubic-bezier(.2,1.2,.3,1) .25s, opacity .4s .25s; }
   .sahne.acik .not { opacity: 1; transform: translateY(-140px) scale(1); }
-  .not .etiket { font-size: 13px; color: var(--soluk); }
-  .not .hedef { font-size: 30px; line-height: 1.15; font-weight: 800; color: var(--kirmizi); margin: 4px 0 0; overflow-wrap: anywhere; }
-  .ipucu { text-align: center; font-weight: 600; color: var(--yesil); min-height: 1.4em; margin: 0; }
-  .nokta { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #dfe5e2; margin: 0 3px; transition: background .2s; }
-  .nokta.dolu { background: var(--kirmizi); }
-  #konfeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+  .not .etiket { font-size: 13px; color: #6b5a33; font-weight: 500; }
+  .not .hedef { font-family: var(--baslik); font-size: 26px; line-height: 1.2; font-weight: 800; color: var(--kirmizi); margin: 6px 0 0; overflow-wrap: anywhere; }
+  .ipucu { text-align: center; font-weight: 600; color: var(--altin); min-height: 1.4em; margin: 0; color: var(--altin-yazi); }
+  .nokta { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--kart-kenar); margin: 0 3px; transition: background .2s; }
+  .nokta.dolu { background: var(--kirmizi); box-shadow: 0 0 8px var(--kirmizi); }
+  #konfeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
+
+  /* ---------- Modal ---------- */
+  .perde { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px;
+    background: rgba(4,7,14,.6); backdrop-filter: blur(4px); animation: belir .2s ease; }
+  .modal { width: 100%; max-width: 440px; background: var(--bg2); color: var(--yazi); border: 1px solid var(--kart-kenar); border-radius: 22px; padding: 24px; box-shadow: var(--golge); }
+  .modal h3 { font-family: var(--baslik); font-weight: 600; margin: 0 0 12px; font-size: 19px; }
+  .modal ol { padding-left: 20px; margin: 0 0 16px; line-height: 1.6; color: var(--soluk); }
+  .modal ol b { color: var(--yazi); }
+  .modal .butonlar { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+
+  footer { text-align: center; color: var(--soluk); font-size: 13px; margin-top: 36px; }
+
   @media (prefers-reduced-motion: reduce) {
-    .sahne.salla .hediye, .sahne.titre .hediye { animation: none; }
-    .hediye .kapak, .not { transition-duration: .01s; transition-delay: 0s; }
+    *, *::before, *::after { animation-duration: .01s !important; animation-iteration-count: 1 !important; transition-duration: .01s !important; transition-delay: 0s !important; }
+    html { scroll-behavior: auto; }
   }
-  a { color: var(--yesil); }
 </style>
 </head>
 <body>
-<main>
-  <h1>🎄 Yılbaşı Çekilişi</h1>
-  <p class="alt" id="altBaslik">Herkes ismini yazsın, çekiliş yapılınca herkes kime hediye alacağını görsün.</p>
-  <div id="uygulama"></div>
-</main>
+<canvas id="kar" aria-hidden="true"></canvas>
+<div class="sarmal">
+  <nav>
+    <a class="logo" href="/"><span class="logo-ikon">🎁</span><span>Gizli Noel</span></a>
+    <div class="menu">
+      <button class="yazi-buton" id="navKatilimcilar" aria-label="Katılımcılar"><i>👥</i><span>Katılımcılar</span></button>
+      <button class="yazi-buton" id="navNasil" aria-label="Nasıl oynanır"><i>❔</i><span>Nasıl Oynanır</span></button>
+      <button class="tema" id="temaButon" aria-label="Temayı değiştir" title="Temayı değiştir">🌙</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="rozet-ust">✨ <span id="heroRozet">Christmas Mystery</span></span>
+    <h1 id="heroBaslik">Yılbaşı <span class="renkli">Çekilişi</span></h1>
+    <p id="heroAciklama">Herkes ismini yazsın, çekiliş yapılınca herkes kime hediye alacağını gizlice öğrensin.</p>
+  </header>
+
+  <main class="izgara" id="uygulama"></main>
+  <footer>Kimse kendine çıkmaz · Eşleşmeleri yönetici dahil kimse göremez</footer>
+</div>
 
 <script>
 const $ = (s, el = document) => el.querySelector(s);
@@ -107,6 +228,8 @@ const uyg = $('#uygulama');
 const params = new URLSearchParams(location.search);
 let odaKodu = (params.get('oda') || '').toUpperCase();
 let yoklama = null;
+let gorulenDurum = null;      // bu oturumda görülen son "çekildi" durumu
+let ruletOynadi = false;      // yönetici animasyonu zaten oynattıysa tekrar oynatma
 
 // --- localStorage güvenli erişim ---
 function oku(k) { try { return localStorage.getItem(k); } catch { return null; } }
@@ -123,6 +246,8 @@ async function istek(yol, govde) {
 
 function el(html) { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; }
 function metin(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
+const hareketAz = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Kutudayken Enter'a basınca butona tıklar; diğer tuşlara dokunmaz.
 function enterIle(girdi, buton) {
   $(girdi).addEventListener('keydown', (e) => {
@@ -137,37 +262,123 @@ if (odaKodu && params.get('t')) {
   history.replaceState(null, '', '/?oda=' + odaKodu);
 }
 
+// ================= TEMA =================
+function temaUygula(t) {
+  document.documentElement.dataset.tema = t;
+  $('#temaButon').textContent = t === 'acik' ? '☀️' : '🌙';
+  $('meta[name="theme-color"]').content = t === 'acik' ? '#EEF2F8' : '#080D18';
+}
+temaUygula(oku('tema') || 'koyu');
+$('#temaButon').onclick = () => {
+  const yeni = document.documentElement.dataset.tema === 'acik' ? 'koyu' : 'acik';
+  yaz('tema', yeni); temaUygula(yeni);
+};
+
+// ================= MODAL =================
+function modal(icerikHtml, butonlar) {
+  return new Promise((coz) => {
+    const p = el(`<div class="perde" role="dialog" aria-modal="true"><div class="modal">${icerikHtml}<div class="butonlar"></div></div></div>`);
+    const kapat = (deger) => { p.remove(); document.removeEventListener('keydown', esc); coz(deger); };
+    const esc = (e) => { if (e.key === 'Escape') kapat(false); };
+    for (const b of butonlar) {
+      const btn = el(`<button class="${b.sinif || ''}">${b.yazi}</button>`);
+      btn.onclick = () => kapat(b.deger);
+      $('.butonlar', p).append(btn);
+    }
+    p.addEventListener('click', (e) => { if (e.target === p) kapat(false); });
+    document.addEventListener('keydown', esc);
+    document.body.append(p);
+    p.querySelector('.butonlar button:last-child').focus();
+  });
+}
+const onayla = (baslik, mesaj, evet = 'Evet') =>
+  modal(`<h3>${baslik}</h3><p class="bilgi">${mesaj}</p>`, [{ yazi: 'Vazgeç', sinif: 'ikincil', deger: false }, { yazi: evet, deger: true }]);
+
+$('#navNasil').onclick = () => modal(`
+  <h3>Nasıl oynanır? 🎄</h3>
+  <ol>
+    <li><b>Çekilişi oluştur</b> ve linki ya da 6 haneli kodu arkadaşlarınla paylaş.</li>
+    <li>Herkes linke girip <b>ismini yazar</b>.</li>
+    <li>Herkes katılınca yönetici <b>“Çekilişi başlat”</b>a basar.</li>
+    <li>Her katılımcı kendi sayfasında <b>hediye kutusunu açar</b> ve kime hediye alacağını görür.</li>
+  </ol>
+  <p class="bilgi">Kimse kendine çıkmaz, herkese tam bir kişi düşer. Eşleşmeleri yönetici dahil kimse göremez.</p>`,
+  [{ yazi: 'Anladım', deger: true }]);
+
+$('#navKatilimcilar').onclick = () => {
+  const hedef = $('#katilimcilar');
+  if (hedef) hedef.scrollIntoView({ block: 'start' });
+  else modal('<h3>Katılımcılar</h3><p class="bilgi">Katılımcıları görmek için önce bir çekiliş oluştur ya da bir çekilişe kodla gir.</p>', [{ yazi: 'Tamam', deger: true }]);
+};
+
+// ================= AVATAR =================
+const AVATAR_RENK = ['#D92F45', '#167C59', '#C9962E', '#3E6FD8', '#8B4FD0', '#D2622A', '#1E8FA0'];
+function avatarRengi(isim) {
+  let h = 0; for (const c of isim) h = (h * 31 + c.codePointAt(0)) >>> 0;
+  return AVATAR_RENK[h % AVATAR_RENK.length];
+}
+function basHarfler(isim) {
+  const p = isim.trim().split(/\s+/);
+  return ((p[0]?.[0] || '') + (p.length > 1 ? p[p.length - 1][0] : '')).toLocaleUpperCase('tr-TR');
+}
+
+// ================= KAR YAĞIŞI =================
+(function kar() {
+  const tuval = $('#kar'), c = tuval.getContext('2d');
+  let w, h, taneler = [];
+  function boyut() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = innerWidth; h = innerHeight; tuval.width = w * dpr; tuval.height = h * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const adet = Math.round(Math.min(110, w / 12));
+    taneler = Array.from({ length: adet }, () => ({ x: Math.random() * w, y: Math.random() * h, r: 0.8 + Math.random() * 2.4,
+      hiz: 0.3 + Math.random() * 0.9, sal: Math.random() * Math.PI * 2 }));
+  }
+  boyut(); addEventListener('resize', boyut);
+  if (hareketAz()) return;
+  (function kare() {
+    c.clearRect(0, 0, w, h);
+    c.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--kar');
+    for (const t of taneler) {
+      t.y += t.hiz; t.sal += 0.01; t.x += Math.sin(t.sal) * 0.4;
+      if (t.y > h + 5) { t.y = -5; t.x = Math.random() * w; }
+      c.beginPath(); c.arc(t.x, t.y, t.r, 0, Math.PI * 2); c.fill();
+    }
+    requestAnimationFrame(kare);
+  })();
+})();
+
 // ================= ANA SAYFA =================
 function anaSayfa() {
   uyg.innerHTML = '';
   const olustur = el(`
-    <div class="kart">
-      <h2>Yeni çekiliş başlat</h2>
+    <section class="kart ana">
+      <h2>🎄 Yeni çekiliş başlat</h2>
       <label for="ad">Çekilişin adı</label>
       <div class="satir">
         <input id="ad" placeholder="Ör. Ofis Yılbaşı 2027" maxlength="60">
         <button id="olustur">Oluştur</button>
       </div>
       <div class="hata" id="h1"></div>
-    </div>`);
+    </section>`);
   const katil = el(`
-    <div class="kart">
-      <h2>Bir çekilişe katıl</h2>
+    <section class="kart">
+      <h2>🔑 Bir çekilişe katıl</h2>
       <label for="kodGir">Çekiliş kodu</label>
       <div class="satir">
-        <input id="kodGir" placeholder="Ör. K7M2QX" maxlength="6" style="text-transform:uppercase">
-        <button id="git">Devam</button>
+        <input id="kodGir" placeholder="Ör. K7M2QX" maxlength="6" style="text-transform:uppercase;letter-spacing:2px">
+        <button id="git" class="ikincil">Devam</button>
       </div>
       <div class="hata" id="h2"></div>
-    </div>`);
+    </section>`);
   uyg.append(olustur, el('<div class="ayrac">ya da</div>'), katil);
 
   $('#olustur').onclick = async () => {
+    $('#olustur').disabled = true;
     try {
       const oda = await istek('odalar', { ad: $('#ad').value });
       yaz('yonetici:' + oda.kod, oda.yoneticiAnahtari);
       location.href = '/?oda=' + oda.kod;
-    } catch (e) { $('#h1').textContent = e.message; }
+    } catch (e) { $('#h1').textContent = e.message; $('#olustur').disabled = false; }
   };
   enterIle('#ad', '#olustur');
   $('#git').onclick = () => {
@@ -178,13 +389,37 @@ function anaSayfa() {
   enterIle('#kodGir', '#git');
 }
 
+// ================= RULET (isimler döner) =================
+// İsimleri hızla döndürür, yavaşlar ve sonunda `son` yazısında durur. Kimin kime çıktığını göstermez.
+async function rulet(kutu, isimler, son) {
+  const isim = $('.rulet-isim', kutu);
+  kutu.classList.remove('bitti');
+  if (!hareketAz() && isimler.length) {
+    let gecikme = 55, onceki = -1;
+    while (gecikme < 330) {
+      let i; do { i = Math.floor(Math.random() * isimler.length); } while (isimler.length > 1 && i === onceki);
+      onceki = i;
+      isim.textContent = isimler[i];
+      isim.classList.remove('don'); void isim.offsetWidth; isim.classList.add('don');
+      try { navigator.vibrate && navigator.vibrate(8); } catch {}
+      await bekle(gecikme);
+      gecikme *= 1.09;
+    }
+  }
+  isim.textContent = son;
+  kutu.classList.add('bitti');
+  const r = kutu.getBoundingClientRect();
+  konfeti(r.left + r.width / 2, r.top + r.height / 2);
+}
+const ruletHtml = (ilk) => `<div class="rulet" aria-live="polite"><div class="rulet-isim">${metin(ilk)}</div></div>`;
+
 // ================= HEDİYE KUTUSU OYUNU =================
 const GEREKEN_DOKUNUS = 3;
 
 function hediyeKutusu(kart, ben) {
   kart.innerHTML = `
     <div class="sonuc">
-      <h2 style="margin-bottom:4px">${metin(ben.isim)}, hediyen hazır! 🎄</h2>
+      <h2 style="margin-bottom:6px">${metin(ben.isim)}, hediyen hazır! 🎄</h2>
       <p class="bilgi" style="margin:0">Kime hediye alacağını görmek için kutuyu aç.</p>
       <div class="sahne" role="button" tabindex="0" aria-label="Hediye kutusunu aç">
         <div class="not" aria-live="polite">
@@ -197,7 +432,7 @@ function hediyeKutusu(kart, ben) {
         </div>
       </div>
       <p class="ipucu">Kutuya ${GEREKEN_DOKUNUS} kez dokun 👆</p>
-      <div class="noktalar" style="margin:8px 0 4px">${'<span class="nokta"></span>'.repeat(GEREKEN_DOKUNUS)}</div>
+      <div class="noktalar" style="margin:10px 0 4px">${'<span class="nokta"></span>'.repeat(GEREKEN_DOKUNUS)}</div>
       <p class="bilgi gizli" id="sir">Bunu kimseye söyleme! 🤫</p>
       <button class="ikincil kucuk gizli" id="kapat">Kutuyu kapat</button>
     </div>`;
@@ -218,7 +453,6 @@ function hediyeKutusu(kart, ben) {
       ipucu.textContent = kalan === 1 ? 'Son bir kez! 🤩' : `${kalan} kez daha…`;
       return;
     }
-    // Son dokunuş: kısa titreşim, sonra patlama
     kilit = true;
     ipucu.textContent = 'Açılıyor…';
     sahne.classList.remove('salla');
@@ -242,7 +476,7 @@ function hediyeKutusu(kart, ben) {
 
 // ---------- Konfeti ----------
 function konfeti(x, y) {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (hareketAz()) return;
   const tuval = document.createElement('canvas');
   tuval.id = 'konfeti';
   document.body.append(tuval);
@@ -251,8 +485,8 @@ function konfeti(x, y) {
   tuval.width = innerWidth * dpr; tuval.height = innerHeight * dpr;
   c.scale(dpr, dpr);
 
-  const renkler = ['#e04a3a', '#f4c542', '#2ecc71', '#ffffff', '#3fa7f5', '#ff8fb1'];
-  const parcalar = Array.from({ length: 160 }, () => {
+  const renkler = ['#D92F45', '#F4C96B', '#167C59', '#ffffff', '#ff8fa0', '#ffe2a0'];
+  const parcalar = Array.from({ length: 170 }, () => {
     const aci = Math.random() * Math.PI * 2, hiz = 4 + Math.random() * 9;
     return {
       x, y, vx: Math.cos(aci) * hiz, vy: Math.sin(aci) * hiz - 7,
@@ -287,7 +521,7 @@ async function odaSayfasi() {
     oda = await istek('odalar/' + odaKodu);
   } catch (e) {
     uyg.innerHTML = '';
-    uyg.append(el(`<div class="kart"><h2>Çekiliş bulunamadı</h2><p class="bilgi">${metin(e.message)}</p><a href="/">Ana sayfaya dön</a></div>`));
+    uyg.append(el(`<section class="kart ortala"><h2>Çekiliş bulunamadı 😕</h2><p class="bilgi">${metin(e.message)}</p><a href="/">Ana sayfaya dön</a></section>`));
     return;
   }
   if (token) {
@@ -295,35 +529,52 @@ async function odaSayfasi() {
     catch { yaz('token:' + odaKodu, null); } // silinmiş kayıt
   }
 
-  $('#altBaslik').textContent = oda.ad;
+  // Sayfa açıkken çekiliş yapıldıysa önce isim ruletini oynat
+  const yeniCekildi = gorulenDurum === false && oda.cekildi && !ruletOynadi;
+  gorulenDurum = oda.cekildi;
+
+  $('#heroRozet').textContent = `Kod: ${odaKodu}`;
+  $('#heroBaslik').textContent = oda.ad;
+  $('#heroAciklama').textContent = oda.cekildi
+    ? 'Çekiliş yapıldı! Herkes kendi hediye kutusunu açıp kime hediye alacağını görebilir.'
+    : `${oda.katilimcilar.length} kişi katıldı. Çekiliş başlayınca herkes kime hediye alacağını gizlice öğrenecek.`;
+  document.title = `${oda.ad} · Yılbaşı Çekilişi`;
   uyg.innerHTML = '';
 
   // --- Katılımcı kartı ---
   if (ben) {
-    const k = el(`<div class="kart"></div>`);
+    const k = el(`<section class="kart ana"></section>`);
     if (!oda.cekildi) {
       k.innerHTML = `
-        <h2>Merhaba ${metin(ben.isim)} 👋</h2>
-        <p>Kaydın alındı <span class="rozet">✓ Katıldın</span></p>
-        <p class="bilgi">Çekiliş henüz yapılmadı. Bu sayfa açık kalırsa sonuç otomatik gelir.
-          Sonra tekrar bakmak istersen aynı tarayıcıdan bu sayfaya gelmen yeterli.</p>
-        <p class="bilgi">Başka bir cihazdan bakmak için kişisel linkin (kimseyle paylaşma):</p>
+        <div class="ortala">
+          <div class="avatar" style="margin:0 auto 12px;width:64px;height:64px;font-size:24px;background:${avatarRengi(ben.isim)}">${metin(basHarfler(ben.isim))}</div>
+          <h2 style="margin-bottom:8px">Merhaba ${metin(ben.isim)} 👋</h2>
+          <span class="rozet">✓ Katıldın</span>
+          <p class="bilgi">Çekiliş henüz yapılmadı. Bu sayfa açık kalırsa sonuç kendiliğinden gelir.</p>
+        </div>
+        <p class="bilgi" style="margin-bottom:8px">Başka bir cihazdan bakmak için kişisel linkin <b>(kimseyle paylaşma)</b>:</p>
         <div class="baglanti">${metin(odaLinki(odaKodu) + '&t=' + token)}</div>`;
+      uyg.append(k);
+    } else if (yeniCekildi) {
+      k.innerHTML = `<h2 class="ortala">🎲 Çekiliş yapılıyor…</h2>${ruletHtml('…')}`;
+      uyg.append(k);
+      rulet($('.rulet', k), oda.katilimcilar.map((x) => x.isim), '🎉 Herkes eşleşti!')
+        .then(() => bekle(1400)).then(() => hediyeKutusu(k, ben));
     } else {
       hediyeKutusu(k, ben);
+      uyg.append(k);
     }
-    uyg.append(k);
   } else if (!oda.cekildi) {
     const k = el(`
-      <div class="kart">
-        <h2>Çekilişe katıl</h2>
+      <section class="kart ana">
+        <h2>🎅 Çekilişe katıl</h2>
         <label for="isim">Adın</label>
         <div class="satir">
           <input id="isim" placeholder="Ör. Ayşe Y." maxlength="40" autocomplete="name">
           <button id="katil">Katıl</button>
         </div>
         <div class="hata" id="hk"></div>
-      </div>`);
+      </section>`);
     uyg.append(k);
     $('#katil').onclick = async () => {
       $('#katil').disabled = true;
@@ -335,62 +586,85 @@ async function odaSayfasi() {
     };
     enterIle('#isim', '#katil');
   } else {
-    uyg.append(el(`<div class="kart"><h2>Çekiliş yapıldı</h2>
-      <p class="bilgi">Bu çekilişe artık katılım yok. Katıldıysan kişisel linkinle ya da katıldığın tarayıcıdan gir.</p></div>`));
+    uyg.append(el(`<section class="kart ortala"><h2>Çekiliş yapıldı 🎉</h2>
+      <p class="bilgi">Bu çekilişe artık katılım yok. Katıldıysan kişisel linkinle ya da katıldığın tarayıcıdan gir.</p></section>`));
   }
 
   // --- Yönetici kartı ---
   if (yoneticiAnahtari) {
+    const yeterli = oda.katilimcilar.length >= 3;
     const y = el(`
-      <div class="kart">
-        <h2>Yönetici paneli</h2>
+      <section class="kart">
+        <h2>👑 Yönetici paneli</h2>
         <p class="bilgi" style="margin-top:0">Katılımcılarla bu linki ya da kodu paylaş:</p>
-        <div class="kod">${odaKodu}</div>
-        <div class="baglanti" style="margin:8px 0">${metin(odaLinki(odaKodu))}</div>
-        <button class="ikincil kucuk" id="kopyala">Linki kopyala</button>
-        <div style="margin-top:16px">
-          ${oda.cekildi
-            ? `<p><span class="rozet">✓ Çekiliş yapıldı</span></p><p class="bilgi">Herkes kendi sayfasından kime çıktığını görebilir. Eşleşmeleri yönetici dahil kimse göremez.</p>`
-            : `<button id="cek" class="genis" ${oda.katilimcilar.length < 3 ? 'disabled' : ''}>🎲 Çekilişi yap (${oda.katilimcilar.length} kişi)</button>
-               <p class="bilgi">${oda.katilimcilar.length < 3 ? 'En az 3 kişi gerekli.' : 'Çekiliş yapılınca katılım kapanır ve geri alınamaz.'}</p>`}
-          <div class="hata" id="hy"></div>
+        <div class="satir" style="align-items:center;justify-content:space-between;flex-direction:row;flex-wrap:wrap">
+          <div class="kod">${odaKodu}</div>
+          <button class="ikincil kucuk" id="kopyala">🔗 Linki kopyala</button>
         </div>
-      </div>`);
+        <div class="baglanti" style="margin:10px 0 18px">${metin(odaLinki(odaKodu))}</div>
+        ${oda.cekildi
+          ? `<p><span class="rozet">✓ Çekiliş yapıldı</span></p><p class="bilgi">Herkes kendi sayfasından kime çıktığını görebilir. Eşleşmeleri yönetici dahil kimse göremez.</p>`
+          : `<div id="ruletAlani"></div>
+             <button id="cek" class="buyuk-buton" ${yeterli ? '' : 'disabled'}>🎲 Çekilişi başlat</button>
+             <p class="bilgi ortala" id="cekBilgi">${yeterli ? `${oda.katilimcilar.length} kişi hazır. Çekiliş yapılınca katılım kapanır ve geri alınamaz.` : `En az 3 kişi gerekli (şu an ${oda.katilimcilar.length}).`}</p>`}
+        <div class="hata" id="hy"></div>
+      </section>`);
     uyg.append(y);
     $('#kopyala').onclick = async () => {
-      try { await navigator.clipboard.writeText(odaLinki(odaKodu)); $('#kopyala').textContent = 'Kopyalandı ✓'; }
+      try { await navigator.clipboard.writeText(odaLinki(odaKodu)); $('#kopyala').textContent = '✓ Kopyalandı'; }
       catch { $('#kopyala').textContent = 'Kopyalanamadı, elle seç'; }
     };
     const cek = $('#cek');
     if (cek) cek.onclick = async () => {
-      if (!confirm(`${oda.katilimcilar.length} kişi arasında çekiliş yapılsın mı? Bu geri alınamaz.`)) return;
+      const evet = await onayla('Çekiliş başlasın mı?', `${oda.katilimcilar.length} kişi arasında çekiliş yapılacak. Bu işlem geri alınamaz ve katılım kapanır.`, 'Başlat 🎲');
+      if (!evet) return;
+      clearTimeout(yoklama);
       cek.disabled = true;
-      try { await istek(`odalar/${odaKodu}/cek`, { yoneticiAnahtari }); odaSayfasi(); }
-      catch (e) { $('#hy').textContent = e.message; cek.disabled = false; }
+      $('#ruletAlani').innerHTML = ruletHtml('…');
+      $('#cekBilgi').textContent = 'İsimler karıştırılıyor…';
+      try {
+        await Promise.all([
+          istek(`odalar/${odaKodu}/cek`, { yoneticiAnahtari }),
+          bekle(hareketAz() ? 0 : 400),
+        ]);
+        ruletOynadi = true;
+        await rulet($('#ruletAlani .rulet'), oda.katilimcilar.map((x) => x.isim), '🎉 Herkes eşleşti!');
+        $('#cekBilgi').textContent = 'Çekiliş tamamlandı! Herkes kendi hediye kutusunu açabilir.';
+        await bekle(2200);
+        odaSayfasi();
+      } catch (e) {
+        $('#ruletAlani').innerHTML = '';
+        $('#hy').textContent = e.message; cek.disabled = false;
+      }
     };
   }
 
-  // --- Katılımcı listesi ---
-  const l = el(`<div class="kart"><h2>Katılımcılar (${oda.katilimcilar.length})</h2><ul class="liste"></ul></div>`);
-  const ul = $('ul', l);
-  if (!oda.katilimcilar.length) ul.append(el('<li class="bilgi">Henüz kimse katılmadı.</li>'));
+  // --- Katılımcılar (avatar kartları) ---
+  const l = el(`<section class="kart" id="katilimcilar" style="scroll-margin-top:16px">
+    <h2>👥 Katılımcılar <small>(${oda.katilimcilar.length})</small></h2><div class="avatarlar"></div></section>`);
+  const liste = $('.avatarlar', l);
+  if (!oda.katilimcilar.length) { liste.replaceWith(el('<p class="bos">Henüz kimse katılmadı. İlk sen ol! ✨</p>')); }
   for (const k of oda.katilimcilar) {
-    const li = el(`<li><span>${metin(k.isim)}${ben && ben.id === k.id ? ' <span class="rozet">sen</span>' : ''}</span></li>`);
+    const sen = ben && ben.id === k.id;
+    const a = el(`<div class="avatar-kart${sen ? ' sen' : ''}">
+      <div class="avatar" style="background:${avatarRengi(k.isim)}">${metin(basHarfler(k.isim))}</div>
+      <div class="avatar-isim">${metin(k.isim)}</div>
+      ${sen ? '<span class="rozet">sen</span>' : ''}</div>`);
     if (yoneticiAnahtari && !oda.cekildi) {
-      const b = el('<button class="ikincil kucuk">Çıkar</button>');
+      const b = el(`<button class="cikar" title="Listeden çıkar" aria-label="${metin(k.isim)} listeden çıkar">✕</button>`);
       b.onclick = async () => {
-        if (!confirm(`${k.isim} listeden çıkarılsın mı?`)) return;
+        if (!(await onayla('Katılımcıyı çıkar', `<b>${metin(k.isim)}</b> listeden çıkarılsın mı?`, 'Çıkar'))) return;
         try { await istek(`odalar/${odaKodu}/cikar`, { yoneticiAnahtari, id: k.id }); odaSayfasi(); }
-        catch (e) { alert(e.message); }
+        catch (e) { modal(`<h3>Olmadı</h3><p class="bilgi">${metin(e.message)}</p>`, [{ yazi: 'Tamam', deger: true }]); }
       };
-      li.append(b);
+      a.append(b);
     }
-    ul.append(li);
+    liste.append(a);
   }
   uyg.append(l);
 
   if (ben && !oda.cekildi) {
-    const b = el('<p class="bilgi" style="text-align:center;color:#cfe3d8">Sen değil misin? <a href="#" id="unut" style="color:#fff">Bu tarayıcıdaki kaydı unut</a></p>');
+    const b = el('<p class="bilgi ortala">Sen değil misin? <a href="#" id="unut">Bu tarayıcıdaki kaydı unut</a></p>');
     uyg.append(b);
     $('#unut').onclick = (e) => { e.preventDefault(); yaz('token:' + odaKodu, null); odaSayfasi(); };
   }
@@ -402,7 +676,7 @@ async function odaSayfasi() {
     yoklama = setTimeout(async function kontrol() {
       try {
         const yeni = await istek('odalar/' + odaKodu);
-        if (JSON.stringify(yeni) !== imza && !document.activeElement.matches('input')) return odaSayfasi();
+        if (JSON.stringify(yeni) !== imza && !document.activeElement.matches('input') && !$('.perde')) return odaSayfasi();
       } catch {}
       yoklama = setTimeout(kontrol, 4000);
     }, 4000);
