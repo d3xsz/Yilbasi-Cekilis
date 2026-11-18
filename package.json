@@ -1,0 +1,14 @@
+{
+  "name": "yilbasi-cekilis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Yılbaşı hediye çekilişi",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
