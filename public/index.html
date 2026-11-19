@@ -7,7 +7,7 @@
 <title>Yılbaşı Çekilişi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Sancreek&family=Luckiest+Guy&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Lemon&family=Luckiest+Guy&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="/gorseller/sahne.webp">
 <style>
 /* =========================================================
@@ -340,7 +340,7 @@ footer { margin-top: 60px; text-align: center; color: var(--soluk); font-size: 1
    (yukarıdaki temel stilleri bilerek ezer)
    ========================================================= */
 :root {
-  --f-oyun: 'Luckiest Guy', 'Baloo 2', system-ui, sans-serif; --f-vintage: 'Sancreek', 'Baloo 2', Georgia, serif;
+  --f-oyun: 'Luckiest Guy', 'Baloo 2', system-ui, sans-serif; --f-vintage: 'Lemon', 'Baloo 2', system-ui, sans-serif;
   --pk: #D1263A; --pk2: #A9172A; --pk-koyu: #6E0C17; --pk-ic: #8A1220; --krem: #FFF4EC;
   --kar-tepe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16' preserveAspectRatio='none'%3E%3Cpath d='M0 16 V10 Q6 2 20 6 Q32 0 48 5 Q62 1 76 6 Q92 0 108 5 Q124 1 138 6 Q154 0 170 5 Q186 2 200 9 V16 Z' fill='%23FFF4EC'/%3E%3C/svg%3E");
   --buz-sacak: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 22'%3E%3Cpath d='M0 0H120V5Q116 5 114 9Q112 5 108 5Q104 5 103 16Q101 5 96 5H84Q80 5 79 11Q77 5 73 5H60Q56 5 55 20Q53 5 49 5H36Q33 5 32 9Q30 5 26 5H16Q12 5 11 14Q9 5 4 5H0Z' fill='%23FFF4EC'/%3E%3C/svg%3E");
@@ -417,16 +417,17 @@ main .kart .girdi:focus { border-color: #FFD873; box-shadow: inset 0 4px 0 rgba(
 .btn.buyuk { padding: 17px 34px 13px; font-size: 21px; }
 .metin-btn { color: #FFE4E6; }
 
-/* başlık: vintage, kırmızı + altın kontur + kabartma */
-.hero h1 { font-family: var(--f-vintage); }
-.hero h1 .ince-satir { font-family: var(--f-vintage); font-weight: 400; font-size: clamp(38px, 4.8vw, 60px); color: #E8262B; letter-spacing: .03em;
-  -webkit-text-stroke: 3px #F2CF7A; paint-order: stroke fill; text-shadow: 0 4px 0 #6E0F0F, 0 0 26px rgba(255, 190, 90, .25); }
-.hero h1 .ana-satir { font-family: var(--f-vintage); font-size: clamp(66px, 9.4vw, 124px); letter-spacing: .02em; color: #E8262B; -webkit-text-stroke: 5px #F2CF7A;
-  text-shadow: 0 5px 0 #8E1414, 0 9px 0 #5C0B0B, 0 18px 26px rgba(0, 0, 0, .5), 0 0 40px rgba(255, 190, 90, .2); }
+/* başlık: tatlı ve okunaklı (Lemon) — kırmızı harf, krem kontur, kabartma */
+.hero h1 { font-family: var(--f-vintage); line-height: 1.02; }
+.hero h1 .ince-satir { font-family: var(--f-vintage); font-weight: 400; font-size: clamp(34px, 4.2vw, 54px); color: var(--krem); letter-spacing: .01em;
+  -webkit-text-stroke: 0; text-shadow: 0 4px 0 #A3141E, 0 7px 0 #5C0B0B, 0 0 26px rgba(255, 190, 90, .3); margin-bottom: 4px; }
+.hero h1 .ana-satir { font-family: var(--f-vintage); font-size: clamp(58px, 8vw, 104px); letter-spacing: .01em; color: #E8262B; -webkit-text-stroke: 6px var(--krem); paint-order: stroke fill;
+  text-shadow: 0 6px 0 #A3141E, 0 10px 0 #5C0B0B, 0 18px 26px rgba(0, 0, 0, .5), 0 0 40px rgba(255, 190, 90, .25); }
+.hero p.alt { text-shadow: 0 2px 6px rgba(0, 0, 0, .8); }
 .susleme { font-family: var(--f-govde); font-weight: 800; letter-spacing: .32em; color: #E9C677; }
-.oda-ust h1 { font-family: var(--f-vintage); font-weight: 400; letter-spacing: .02em; color: #E8262B; -webkit-text-stroke: 3px #F2CF7A; paint-order: stroke fill;
-  text-shadow: 0 4px 0 #8E1414, 0 7px 0 #5C0B0B, 0 12px 20px rgba(0, 0, 0, .5); }
-.sahne h2 { font-family: var(--f-vintage); font-weight: 400; color: #E8262B; -webkit-text-stroke: 3px #F2CF7A; paint-order: stroke fill; text-shadow: 0 4px 0 #8E1414, 0 10px 20px rgba(0, 0, 0, .5); }
+.oda-ust h1 { font-family: var(--f-vintage); font-weight: 400; letter-spacing: .02em; color: #E8262B; -webkit-text-stroke: 4px var(--krem); paint-order: stroke fill;
+  text-shadow: 0 4px 0 #A3141E, 0 7px 0 #5C0B0B, 0 12px 20px rgba(0, 0, 0, .5); }
+.sahne h2 { font-family: var(--f-vintage); font-weight: 400; color: #E8262B; -webkit-text-stroke: 4px var(--krem); paint-order: stroke fill; text-shadow: 0 4px 0 #8E1414, 0 10px 20px rgba(0, 0, 0, .5); }
 .susleme::before, .susleme::after { width: 80px; }
 
 /* köşe objeleri: gerçekçi görseller */
@@ -436,8 +437,20 @@ img.agac { height: auto; width: 300px; left: -34px; bottom: 0; filter: drop-shad
 img.kose-sag { height: auto; width: 270px; right: -18px; bottom: 0;
   -webkit-mask-image: linear-gradient(to left, #000 64%, transparent 98%), linear-gradient(to top, #000 70%, transparent 100%); -webkit-mask-composite: source-in;
   mask-image: linear-gradient(to left, #000 64%, transparent 98%), linear-gradient(to top, #000 70%, transparent 100%); mask-composite: intersect; }
-@media (max-width: 1400px) { img.agac { width: 230px; } img.kose-sag { width: 210px; } }
+/* geniş ekranda yan boşluğa sığacak kadar büyür; içeriğin üstüne taşmaz */
+img.agac, img.kose-sag { width: clamp(0px, calc((100vw - 1200px) / 2 + 40px), 300px); }
+@media (min-width: 861px) and (max-width: 1399px) { img.agac, img.kose-sag { display: none; } }
 @media (max-width: 860px) { img.agac { width: 130px; left: -24px; } img.kose-sag { width: 120px; right: -14px; } }
+
+
+/* ---------- zıplayan geyik ---------- */
+.geyik { position: fixed; left: 0; bottom: 22px; width: 130px; z-index: 4; pointer-events: none; will-change: transform; }
+.geyik svg { display: block; width: 100%; height: auto; overflow: visible; }
+.geyik .bacak { transform-box: view-box; }
+.geyik .burun { animation: burun 1.6s ease-in-out infinite; }
+@keyframes burun { 50% { filter: drop-shadow(0 0 8px #FF5A4A); } }
+@media (max-width: 1399px) { .geyik { width: 96px; bottom: 16px; } }
+@media (max-width: 600px) { .geyik { width: 78px; bottom: 12px; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
@@ -463,6 +476,41 @@ img.kose-sag { height: auto; width: 270px; right: -18px; bottom: 0;
   <img class="kose-sag" src="/gorseller/sag-susler.webp" width="402" height="500" alt="" loading="lazy" decoding="async">
 </div>
 
+<div class="geyik" id="geyik" aria-hidden="true">
+  <svg viewBox="0 0 170 150">
+    <ellipse class="golge" cx="82" cy="146" rx="46" ry="5" fill="rgba(0,0,0,.35)"/>
+    <g class="govde-grup">
+      <!-- arka (uzak) bacaklar -->
+      <g class="bacak" data-kalca="60 96" data-faz="1"><rect x="56" y="94" width="9" height="40" rx="4.5" fill="#7A4320"/><rect x="55" y="128" width="11" height="8" rx="3" fill="#3A2210"/></g>
+      <g class="bacak" data-kalca="104 96" data-faz="0"><rect x="100" y="94" width="9" height="40" rx="4.5" fill="#7A4320"/><rect x="99" y="128" width="11" height="8" rx="3" fill="#3A2210"/></g>
+      <!-- kuyruk -->
+      <ellipse cx="36" cy="74" rx="9" ry="7" fill="#FFF4EC"/>
+      <!-- gövde -->
+      <ellipse cx="80" cy="84" rx="46" ry="25" fill="#A8632F"/>
+      <ellipse cx="78" cy="94" rx="30" ry="11" fill="#E9C9A0"/>
+      <ellipse cx="66" cy="72" rx="20" ry="7" fill="#C27A3E" opacity=".6"/>
+      <!-- boyun + atkı -->
+      <path d="M104 74 Q110 50 122 40 L136 50 Q122 60 120 82 Z" fill="#A8632F"/>
+      <path d="M104 68 Q116 78 128 62" fill="none" stroke="#E0352B" stroke-width="10" stroke-linecap="round"/>
+      <path d="M104 68 Q116 78 128 62" fill="none" stroke="#3BA55C" stroke-width="10" stroke-linecap="round" stroke-dasharray="4 8"/>
+      <path d="M110 72 l-6 22 l9 -2 z" fill="#E0352B"/>
+      <!-- baş -->
+      <g class="bas">
+        <path d="M122 30 Q114 12 104 6 M116 18 L104 18 M130 28 Q132 10 142 3 M132 16 L144 14" fill="none" stroke="#6B3E1E" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="114" cy="34" rx="9" ry="4.5" fill="#8E5126" transform="rotate(-28 114 34)"/>
+        <ellipse cx="130" cy="42" rx="18" ry="14" fill="#A8632F"/>
+        <ellipse cx="145" cy="48" rx="11" ry="9" fill="#C88A52"/>
+        <circle class="burun" cx="155" cy="46" r="6" fill="#E8262B"/><circle cx="153" cy="44" r="2" fill="#fff" opacity=".7"/>
+        <circle cx="132" cy="37" r="3.6" fill="#2A1408"/><circle cx="133" cy="36" r="1.2" fill="#fff"/>
+        <ellipse cx="137" cy="47" rx="3.5" ry="2" fill="#F08A8A" opacity=".6"/>
+        <path d="M143 54 Q148 57 152 54" fill="none" stroke="#5A2E12" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <!-- ön (yakın) bacaklar -->
+      <g class="bacak" data-kalca="52 98" data-faz="0"><rect x="47" y="96" width="10" height="40" rx="5" fill="#8E5126"/><rect x="46" y="130" width="12" height="8" rx="3" fill="#3A2210"/></g>
+      <g class="bacak" data-kalca="96 98" data-faz="1"><rect x="91" y="96" width="10" height="40" rx="5" fill="#8E5126"/><rect x="90" y="130" width="12" height="8" rx="3" fill="#3A2210"/></g>
+    </g>
+  </svg>
+</div>
 <canvas id="yigin" aria-hidden="true"></canvas>
 
 <div class="kabuk">
@@ -709,6 +757,43 @@ function konfeti(x, y, renkler = ['#E8392F', '#3BA55C', '#FFC94D', '#ffffff', '#
         }
         if (p.k.kirli) panelCiz(p.k);
       }
+    }
+    requestAnimationFrame(kare);
+  })();
+})();
+
+
+// ---------- zıplayarak gezen geyik ----------
+(function geyik() {
+  const kutu = $('#geyik'); if (!kutu) return;
+  const grup = $('.govde-grup', kutu), golge = $('.golge', kutu), bas = $('.bas', kutu);
+  const bacaklar = [...kutu.querySelectorAll('.bacak')].map((b) => ({ el: b, kalca: b.dataset.kalca.split(' ').map(Number), faz: +b.dataset.faz }));
+  let x = 120, yon = 1, t = 0, bekle = 0, bekleSure = 0;
+  const genislik = () => kutu.offsetWidth;
+  const ciz = (ziplama, adim) => {
+    const y = -Math.abs(Math.sin(ziplama)) * (innerWidth < 600 ? 16 : 26);
+    kutu.style.transform = `translate3d(${x}px, ${y}px, 0) scaleX(${yon})`;
+    golge.setAttribute('transform', `translate(82 146) scale(${1 + y / 60} 1) translate(-82 -146)`);
+    for (const b of bacaklar) {
+      const aci = Math.sin(adim + b.faz * Math.PI) * 26;
+      b.el.setAttribute('transform', `rotate(${aci.toFixed(1)} ${b.kalca[0]} ${b.kalca[1]})`);
+    }
+  };
+  if (hareketAz()) { x = 30; ciz(0, 0); return; }
+  (function kare() {
+    if (bekle > 0) {                       // arada durup kafasını sallar
+      bekle--; t += .05;
+      bas.setAttribute('transform', `rotate(${(Math.sin(t * 3) * 6).toFixed(1)} 122 50)`);
+      ciz(0, 0);
+    } else {
+      t += .09;
+      x += yon * (innerWidth < 600 ? 1.1 : 1.6);
+      const sag = innerWidth - genislik();
+      if (x > sag) { x = sag; yon = -1; bekle = 90; }
+      if (x < 0) { x = 0; yon = 1; bekle = 90; }
+      if (Math.random() < .0015) bekle = 120;
+      bas.setAttribute('transform', `rotate(${(Math.sin(t * 2) * 3).toFixed(1)} 122 50)`);
+      ciz(t, t * 1.0);
     }
     requestAnimationFrame(kare);
   })();
