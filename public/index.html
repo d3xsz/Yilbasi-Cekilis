@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Lemon&family=Luckiest+Guy&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="/gorseller/sahne.webp">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
 <style>
 /* =========================================================
    YILBAŞI ÇEKİLİŞİ
@@ -457,6 +458,18 @@ img.agac, img.kose-sag { width: clamp(0px, calc((100vw - var(--icerik)) / 2 + 60
 @media (max-width: 600px) { .geyik { width: 78px; } }
 .davet .btn::after { height: 16px; top: -7px; }
 
+
+/* ---------- parçacık ağacı <-> QR ---------- */
+.qr-sahne { position: fixed; inset: 0; z-index: 75; background: radial-gradient(circle at 50% 45%, #1A1430, #05040A 75%); animation: belir .35s ease; overflow: hidden; }
+.qr-sahne canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer; touch-action: manipulation; }
+.qr-ust { position: absolute; top: 18px; left: 0; right: 0; text-align: center; pointer-events: none; z-index: 2; padding: 0 70px; }
+.qr-ust h2 { margin: 0; font-family: var(--f-vintage); font-weight: 400; font-size: clamp(26px, 4.4vw, 46px); color: #fff; -webkit-text-stroke: 5px #E8262B; paint-order: stroke fill; text-shadow: 0 4px 0 #8E1414; }
+.qr-ust p { margin: 6px 0 0; font-family: var(--f-oyun); text-transform: uppercase; letter-spacing: .08em; color: #FFE08A; font-size: 15px; animation: isil 2s infinite; }
+.qr-alt { position: absolute; left: 0; right: 0; bottom: 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 2; padding: 0 16px; }
+.qr-link { font-family: ui-monospace, Consolas, monospace; font-size: 13px; color: #FFE08A; background: rgba(0, 0, 0, .45); border: 2px dashed rgba(255, 224, 138, .4); border-radius: 12px; padding: 8px 12px; word-break: break-all; text-align: center; max-width: 560px; }
+.qr-butonlar { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.qr-sahne .kapat-x { z-index: 3; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
 }
@@ -892,6 +905,7 @@ function anaSayfa() {
         <div class="hero-aksiyon">
           <a class="btn buyuk" href="#olustur" id="heroOlustur">Çekiliş oluştur</a>
           <a class="btn ince" href="#kodla" id="heroKod">Kodla katıl</a>
+          <button class="btn yesil" id="heroQr">QR ile paylaş</button>
         </div>
       </div>
       <div class="hero-gorsel"><img src="/gorseller/sahne.webp" width="1402" height="1122" alt="Karlı bir yılbaşı ağacı, hediye paketleri, şeker kamışları ve altın kenarlı ahşap bir hediye sandığı" fetchpriority="high"></div>
@@ -917,6 +931,7 @@ function anaSayfa() {
 `;
   sayacBaslat();
   $('#heroOlustur').onclick = (e) => { e.preventDefault(); $('#olustur').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#ad').focus(), 400); };
+  $('#heroQr').onclick = () => agacQrSahnesi(location.origin + '/', 'Yılbaşı Çekilişi');
   $('#heroKod').onclick = (e) => { e.preventDefault(); $('#kodla').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#kodGir').focus(), 400); };
   $('#olusturBtn').onclick = async () => {
     $('#olusturBtn').disabled = true;
@@ -951,11 +966,13 @@ function odaSayfasi() {
           ${o.cekildi ? `<span class="cip altin">✨ Eşleşti · ${acan}/${n} sandık açıldı</span>` : `<span class="cip yesil"><i></i>Katılım açık</span>`}
           <span class="cip">👥 ${n} kişi</span>
           <span class="cip">Kod: <b>${odaKodu}</b> <button id="kodKopya" aria-label="Çekiliş linkini kopyala">⧉</button></span>
+          <button class="btn yesil" id="qrDavet" style="padding:9px 18px 7px;font-size:15px">QR ile davet et</button>
         </div>
       </div>
       <div class="sandik-kap salin">${sandikSvg()}</div>
     </section>
     <div class="duzen"><div class="sol-kolon" id="sol"></div><div id="sag"></div></div>`;
+  $('#qrDavet').onclick = () => agacQrSahnesi(odaLinki(odaKodu), o.ad);
   const kk = $('#kodKopya');
   kk.onclick = async () => { try { await navigator.clipboard.writeText(odaLinki(odaKodu)); kk.textContent = '✓'; } catch { kk.textContent = '✕'; } setTimeout(() => (kk.textContent = '⧉'), 1600); };
   const sol = $('#sol');
@@ -1011,13 +1028,14 @@ function odaSayfasi() {
     const y = el(`<section class="kart" aria-labelledby="y-b">
       <h3 class="plaka" id="y-b">Yönetici</h3><span class="kose-sus" aria-hidden="true">🎅</span>
       <p class="alt-yazi">Yalnızca sen görüyorsun</p>
-      <div class="davet"><span class="etiket-ust">Davet linki</span><code>${metin(odaLinki(odaKodu))}</code><button class="btn altin" id="linkKopya">Kopyala</button></div>
+      <div class="davet"><span class="etiket-ust">Davet linki</span><code>${metin(odaLinki(odaKodu))}</code><button class="btn altin" id="linkKopya">Kopyala</button><button class="btn yesil" id="qrDavet2">QR</button></div>
       ${o.cekildi ? `<div class="satir-yazi"><span>Açılan sandıklar</span><span>${acan}/${n}</span></div><div class="ilerleme"><i style="width:${n ? acan / n * 100 : 0}%"></i></div>`
         : `<div class="satir-yazi"><span>Katılanlar</span><span>${n} kişi ${yeterli ? '· hazır ✓' : '· en az 3 gerekli'}</span></div><div class="ilerleme"><i style="width:${Math.min(100, n / 3 * 100)}%"></i></div>
         <div class="yonetici-alt"><span class="soluk" style="font-size:14px">Başlatınca katılım kapanır, geri alınamaz.</span>
           <button class="btn buyuk" id="eslestirBtn" ${yeterli ? '' : 'disabled'}>✨ Eşleştirmeyi başlat</button></div>`}
       <div class="hata" id="hy" role="alert"></div></section>`);
     sol.append(y);
+    $('#qrDavet2').onclick = () => agacQrSahnesi(odaLinki(odaKodu), o.ad);
     $('#linkKopya').onclick = async () => { try { await navigator.clipboard.writeText(odaLinki(odaKodu)); $('#linkKopya').textContent = 'Kopyalandı ✓'; } catch { $('#linkKopya').textContent = 'Elle kopyala'; } };
     if ($('#eslestirBtn')) $('#eslestirBtn').onclick = eslestirmeSahnesi;
   }
@@ -1045,6 +1063,178 @@ function odaSayfasi() {
     p.append(u); $('#unutBtn', u).onclick = () => { yaz('token:' + odaKodu, null); yukle(true); };
   }
   $('#sag').append(p);
+}
+
+// =========================================================
+// SAHNE: PARÇACIK AĞACI <-> QR KOD
+// Ağaca dokununca parçacıklar dağılıp QR koda dönüşür; QR okutulunca `link` açılır.
+// =========================================================
+function agacQrSahnesi(link, baslik) {
+  S.sahneAcik = true; clearTimeout(yoklama);
+  const onceki = document.activeElement;
+  const s = el(`<div class="qr-sahne" role="dialog" aria-modal="true" aria-labelledby="qr-b">
+    <button class="kapat-x" aria-label="Kapat">✕</button>
+    <canvas aria-label="Parçacıklardan oluşan yılbaşı ağacı. Dokununca QR koda dönüşür."></canvas>
+    <div class="qr-ust"><h2 id="qr-b">${metin(baslik)}</h2><p id="qrIpucu">Ağaca dokun, QR kodu gör</p></div>
+    <div class="qr-alt"><div class="qr-link">${metin(link)}</div>
+      <div class="qr-butonlar"><button class="btn" id="qrDegis">QR kodu göster</button><button class="btn ince" id="qrKopya">Linki kopyala</button></div></div>
+  </div>`);
+  document.body.append(s);
+  const tv = $('canvas', s), c = tv.getContext('2d');
+  let w, h, dpr, calisiyor = true, mod = 'agac', modZaman = performance.now();
+
+  // --- QR matrisi ---
+  let qr = null;
+  try {
+    const q = qrcode(0, 'M'); q.addData(link); q.make();
+    qr = { n: q.getModuleCount(), koyu: (r, k) => q.isDark(r, k) };
+  } catch { qr = null; }
+
+  // --- renk temaları (alttan üste dalga halinde değişir) ---
+  const TEMALAR = [
+    { yaprak: ['#2E9E4F', '#4FC36B', '#1F7A3A', '#9BE8AE'], sus: ['#E8262B', '#FFC94D', '#FFFFFF'], serit: '#FFD86B' },
+    { yaprak: ['#3A6FD8', '#6FA4FF', '#C9D9FF', '#FFFFFF'], sus: ['#FFC94D', '#E9C677', '#FFFFFF'], serit: '#FFE9A8' },
+    { yaprak: ['#FFFFFF', '#F2F2F2', '#FFD9D9', '#E8262B'], sus: ['#E8262B', '#B3141E', '#FFC94D'], serit: '#FFFFFF' },
+    { yaprak: ['#2E9E4F', '#7DDC92', '#F4A7C8', '#FFFFFF'], sus: ['#FF5FA2', '#E8262B', '#FFE08A'], serit: '#FFB3D1' },
+  ];
+  let tema = 0, temaZaman = performance.now();
+
+  // --- parçacıklar ---
+  const ADET = innerWidth < 600 ? 1800 : 3400;
+  const P = [];
+  for (let i = 0; i < ADET; i++) {
+    const r = Math.random();
+    const tur = r < .05 ? 'yildiz' : r < .12 ? 'serit' : r < .19 ? 'sus' : 'yaprak';
+    const yuk = tur === 'yildiz' ? 0 : Math.pow(Math.random(), .85);      // 0 = tepe, 1 = taban
+    P.push({ tur, yuk, aci: Math.random() * Math.PI * 2, ic: Math.sqrt(Math.random()), renk: Math.random(),
+      x: Math.random() * innerWidth, y: Math.random() * innerHeight, vx: 0, vy: 0,
+      yay: .018 + Math.random() * .03, gecik: Math.random() * 420, isil: Math.random() * 6,
+      yildizA: Math.random() * Math.PI * 2, yildizR: Math.sqrt(Math.random()), hucre: null, jx: Math.random(), jy: Math.random() });
+  }
+
+  function boyutla() {
+    dpr = Math.min(devicePixelRatio || 1, 2); w = innerWidth; h = innerHeight;
+    tv.width = w * dpr; tv.height = h * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  boyutla(); addEventListener('resize', boyutla);
+
+  // QR'ın koyu hücrelerini parçacıklara dağıt (hücre başına en çok 6 parçacık)
+  if (qr) {
+    const koyu = [];
+    for (let r = 0; r < qr.n; r++) for (let k = 0; k < qr.n; k++) if (qr.koyu(r, k)) koyu.push([r, k]);
+    P.forEach((p, i) => { p.hucre = i < koyu.length * 6 ? koyu[i % koyu.length] : null; });
+  }
+  const qrOlcu = () => {
+    const kenar = Math.min(w * .82, h * .56, 520), hucre = Math.max(3, Math.floor(kenar / (qr.n + 8)));   // tam piksel: modüller arası çizgi olmaz
+    return { hucre, x0: Math.round(w / 2 - (qr.n * hucre) / 2), y0: Math.round(h * .5 - (qr.n * hucre) / 2 + 6) };
+  };
+  const bulucu = (r, k) => (r < 7 && k < 7) || (r < 7 && k >= qr.n - 7) || (r >= qr.n - 7 && k < 7);
+
+  function hedef(p, zaman) {
+    if (mod === 'qr' && qr) {
+      if (!p.hucre) {                                   // fazlalık parçacıklar QR'ın çevresinde süzülür
+        const a = p.aci + zaman * .0002, R = Math.max(w, h) * .45 + p.ic * 80;
+        return [w / 2 + Math.cos(a) * R, h / 2 + Math.sin(a) * R * .6, .25];
+      }
+      const { hucre, x0, y0 } = qrOlcu();
+      return [x0 + (p.hucre[1] + .15 + p.jx * .7) * hucre, y0 + (p.hucre[0] + .15 + p.jy * .7) * hucre, 1];
+    }
+    // ağaç: dönen koni
+    const boy = Math.min(h * .62, w * 1.1), tepe = h * .5 - boy * .5 + 24, R = boy * .36;
+    if (p.tur === 'yildiz') {
+      const a = p.yildizA, kol = Math.cos(5 * a) * .5 + .5;
+      const rr = boy * .055 * p.yildizR * (.45 + kol * .55);
+      return [w / 2 + Math.cos(a - Math.PI / 2) * rr, tepe - boy * .03 + Math.sin(a - Math.PI / 2) * rr, 1.4];
+    }
+    const don = zaman * .00045;
+    let a = p.aci + don, yaricap = R * p.yuk;
+    if (p.tur === 'serit') { a = p.yuk * 18 + don; yaricap = R * p.yuk * 1.02; }   // sarmal ışık şeridi
+    else yaricap *= p.tur === 'sus' ? .98 : (.55 + p.ic * .45);
+    const x = Math.cos(a) * yaricap, z = Math.sin(a) * yaricap;
+    const derinlik = (z / (R || 1) + 1) / 2;                                      // 0 arka, 1 ön
+    return [w / 2 + x, tepe + p.yuk * boy, .35 + derinlik * .75];
+  }
+
+  function renk(p, zaman) {
+    const yas = (zaman - temaZaman) / 1400;                                      // dalga alttan yukarı
+    const t = TEMALAR[(1 - p.yuk) < yas ? tema : (tema + TEMALAR.length - 1) % TEMALAR.length];
+    if (p.tur === 'yildiz') return '#FFD86B';
+    if (p.tur === 'serit') return t.serit;
+    if (p.tur === 'sus') return t.sus[Math.floor(p.renk * t.sus.length)];
+    return t.yaprak[Math.floor(p.renk * t.yaprak.length)];
+  }
+
+  function degistir() {
+    if (!qr) { $('#qrIpucu', s).textContent = 'QR kod üretilemedi — linki kopyalayabilirsin'; return; }
+    mod = mod === 'agac' ? 'qr' : 'agac'; modZaman = performance.now();
+    for (const p of P) { const a = Math.random() * Math.PI * 2, g = 6 + Math.random() * 14; p.vx += Math.cos(a) * g; p.vy += Math.sin(a) * g; }
+    $('#qrDegis', s).textContent = mod === 'qr' ? 'Ağaca dön' : 'QR kodu göster';
+    $('#qrIpucu', s).textContent = mod === 'qr' ? 'Telefonunla okut — tekrar dokun, ağaç geri gelsin' : 'Ağaca dokun, QR kodu gör';
+    try { navigator.vibrate && navigator.vibrate(30); } catch {}
+  }
+  tv.addEventListener('click', degistir);
+  $('#qrDegis', s).onclick = degistir;
+  $('#qrKopya', s).onclick = async () => {
+    try { await navigator.clipboard.writeText(link); $('#qrKopya', s).textContent = 'Kopyalandı ✓'; } catch { $('#qrKopya', s).textContent = 'Elle kopyala'; }
+  };
+  const kapat = () => {
+    calisiyor = false; removeEventListener('resize', boyutla); document.removeEventListener('keydown', tus);
+    s.remove(); S.sahneAcik = false; onceki?.focus?.(); if (odaKodu) yukle(true);
+  };
+  const tus = (e) => { if (e.key === 'Escape') kapat(); };
+  document.addEventListener('keydown', tus);
+  $('.kapat-x', s).onclick = kapat;
+  $('#qrDegis', s).focus();
+
+  const az = hareketAz();
+  (function kare(zaman) {
+    if (!calisiyor) return;
+    if (mod === 'agac' && zaman - temaZaman > 6000) { tema = (tema + 1) % TEMALAR.length; temaZaman = zaman; }
+    c.clearRect(0, 0, w, h);
+    const modGecen = zaman - modZaman;
+    let qrNet = 0;
+    if (mod === 'qr' && qr) {                         // QR'ın arkasındaki açık kart (taranabilirlik için)
+      qrNet = az ? 1 : Math.max(0, Math.min(1, (modGecen - 1500) / 700));
+      const { hucre, x0, y0 } = qrOlcu(), pay = hucre * 3;
+      c.globalAlpha = Math.min(1, modGecen / 900) * .97;
+      c.fillStyle = '#FFF8EE';
+      c.beginPath(); c.roundRect(x0 - pay, y0 - pay, qr.n * hucre + pay * 2, qr.n * hucre + pay * 2, hucre * 1.5); c.fill();
+    }
+    const qrHucre = mod === 'qr' && qr ? qrOlcu().hucre : 0;
+    c.globalCompositeOperation = mod === 'agac' ? 'lighter' : 'source-over';   // ağaçta ışıltı, QR'da düz renk
+    for (const p of P) {
+      const [tx, ty, parlak] = hedef(p, zaman);
+      if (az) { p.x = tx; p.y = ty; }
+      else if (mod === 'agac' || modGecen > p.gecik) {
+        const sert = mod === 'agac' && modGecen > 2200 ? 3 : 1;          // yerleşince ağacı sıkı takip et
+        p.vx = (p.vx + (tx - p.x) * p.yay * sert) * .82;
+        p.vy = (p.vy + (ty - p.y) * p.yay * sert) * .82;
+        p.x += p.vx; p.y += p.vy;
+      } else { p.x += p.vx; p.y += p.vy; p.vx *= .96; p.vy *= .96; }
+      p.isil += .05;
+      let boy = p.tur === 'sus' ? 4.6 : p.tur === 'yildiz' ? 3 : 2.5;
+      let a = Math.min(1, .25 + parlak) * (.7 + Math.sin(p.isil) * .3), r = renk(p, zaman);
+      if (mod === 'qr' && qr) {
+        if (p.hucre) { boy = Math.max(2, qrHucre * .42); r = bulucu(p.hucre[0], p.hucre[1]) ? '#C8141F' : '#0E4D26'; a = 1 - qrNet * .9; }
+        else a = .35;
+      }
+      c.globalAlpha = Math.max(0, a);
+      c.fillStyle = r;
+      if (p.tur === 'sus' && mod === 'agac') { c.beginPath(); c.arc(p.x, p.y, boy / 2, 0, Math.PI * 2); c.fill(); }
+      else c.fillRect(p.x - boy / 2, p.y - boy / 2, boy, boy);
+    }
+    c.globalCompositeOperation = 'source-over';
+    if (qrNet > 0) {                                  // parçacıklar yerleşince net QR (telefon kameraları için)
+      const { hucre, x0, y0 } = qrOlcu();
+      c.globalAlpha = qrNet;
+      for (let r = 0; r < qr.n; r++) for (let k = 0; k < qr.n; k++) if (qr.koyu(r, k)) {
+        c.fillStyle = bulucu(r, k) ? '#C8141F' : '#0E4D26';
+        c.fillRect(x0 + k * hucre, y0 + r * hucre, hucre, hucre);
+      }
+    }
+    c.globalAlpha = 1;
+    requestAnimationFrame(kare);
+  })(performance.now());
 }
 
 // =========================================================
