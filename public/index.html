@@ -1190,12 +1190,7 @@ function agacMotoru(tv, link, ayar = {}) {
     c.clearRect(0, 0, w, h);
     const gecen = zaman - modZaman;
     let qrNet = 0;
-    if (mod === 'qr' && qr) {                              // açık renkli kart (taranabilirlik için)
-      qrNet = az ? 1 : Math.max(0, Math.min(1, (gecen - 1500) / 700));
-      const { hucre, x0, y0 } = qrOlcu(), pay = hucre * 2.5;
-      c.globalAlpha = Math.min(1, gecen / 900) * .97; c.fillStyle = '#FFF8EE';
-      c.beginPath(); c.roundRect(x0 - pay, y0 - pay, qr.n * hucre + pay * 2, qr.n * hucre + pay * 2, hucre * 1.5); c.fill();
-    }
+    if (mod === 'qr' && qr) qrNet = az ? 1 : Math.max(0, Math.min(1, (gecen - 1500) / 700));   // kartsız: koyu zemin üstünde açık renkli QR
     const qrHucre = mod === 'qr' && qr ? qrOlcu().hucre : 0;
     c.globalCompositeOperation = mod === 'agac' ? 'lighter' : 'source-over';
     for (const p of P) {
@@ -1211,7 +1206,7 @@ function agacMotoru(tv, link, ayar = {}) {
       let a = Math.min(1, .2 + parlak) * (.72 + Math.sin(p.isil) * .28), r = renk(p, zaman);
       if (p.tur === 'govde' && mod === 'agac') a *= .55;
       if (mod === 'qr' && qr) {
-        if (p.hucre) { boy = Math.max(2, qrHucre * .42); r = bulucu(p.hucre[0], p.hucre[1]) ? '#C8141F' : '#0E4D26'; a = 1 - qrNet * .9; }
+        if (p.hucre) { boy = Math.max(2, qrHucre * .42); r = bulucu(p.hucre[0], p.hucre[1]) ? '#FFD36A' : '#FFF4EC'; a = 1 - qrNet; }
         else a = .3;
       }
       c.globalAlpha = Math.max(0, a); c.fillStyle = r;
@@ -1220,11 +1215,10 @@ function agacMotoru(tv, link, ayar = {}) {
     }
     c.globalCompositeOperation = 'source-over';
     if (qrNet > 0) {                                        // yerleşince net QR (telefon kameraları için)
-      const { hucre, x0, y0 } = qrOlcu(), pay = hucre * 2.5;
-      c.globalAlpha = qrNet; c.fillStyle = '#FFF8EE';      // kartın üstünden geçen parçacıkları ört
-      c.beginPath(); c.roundRect(x0 - pay, y0 - pay, qr.n * hucre + pay * 2, qr.n * hucre + pay * 2, hucre * 1.5); c.fill();
+      const { hucre, x0, y0 } = qrOlcu();
+      c.globalAlpha = qrNet;
       for (let r = 0; r < qr.n; r++) for (let k = 0; k < qr.n; k++) if (qr.koyu(r, k)) {
-        c.fillStyle = bulucu(r, k) ? '#C8141F' : '#0E4D26';
+        c.fillStyle = bulucu(r, k) ? '#FFD36A' : '#FFF4EC';
         c.fillRect(x0 + k * hucre, y0 + r * hucre, hucre, hucre);
       }
     }
