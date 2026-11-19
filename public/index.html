@@ -608,8 +608,6 @@ function celenkSvg() {
   const isik = Array.from({ length: 8 }, (_, i) => { const a = i / 8 * Math.PI * 2; return `<circle class="ampul-isik" style="animation-delay:${-i * .25}s" cx="${(100 + Math.cos(a) * 62).toFixed(1)}" cy="${(100 + Math.sin(a) * 62).toFixed(1)}" r="4" fill="#FFE27A"/>`; }).join('');
   return `<svg viewBox="0 0 200 200" aria-hidden="true">${yap}${dut}${isik}</svg>`;
 }
-const IKON_AGAC = `<svg class="ikon" viewBox="0 0 52 52" aria-hidden="true"><path d="M26 4 L42 26 L35 26 L46 42 L6 42 L17 26 L10 26 Z" fill="#3BA55C"/><rect x="22" y="42" width="8" height="7" fill="#7A4220"/><path d="M26 1 l2.4 5 5.4.5 -4 3.6 1.2 5.3 -5-2.8 -5 2.8 1.2-5.3 -4-3.6 5.4-.5z" fill="#FFCD45"/><circle cx="21" cy="30" r="2.6" fill="#D9342A"/><circle cx="31" cy="36" r="2.6" fill="#FFE27A"/><circle cx="28" cy="22" r="2.4" fill="#FFE27A"/></svg>`;
-const IKON_ANAHTAR = `<svg class="ikon" viewBox="0 0 52 52" aria-hidden="true"><rect x="6" y="14" width="40" height="32" rx="6" fill="#D9342A"/><rect x="23" y="14" width="6" height="32" fill="#FFCD45"/><rect x="4" y="10" width="44" height="10" rx="4" fill="#E8392F"/><rect x="23" y="10" width="6" height="10" fill="#FFCD45"/><path d="M26 10 C18 0 10 6 20 10 M26 10 C34 0 42 6 32 10" fill="none" stroke="#FFCD45" stroke-width="3.5" stroke-linecap="round"/></svg>`;
 const HOLLY = `<svg class="holly" viewBox="0 0 50 40" aria-hidden="true"><path d="M4 30 q-2 -16 18 -18 q-4 10 4 14 q-10 2 -22 4z" fill="#2F8A44"/><path d="M46 30 q4 -16 -16 -20 q2 10 -6 14 q10 2 22 6z" fill="#3BA55C"/><circle cx="22" cy="24" r="5" fill="#D9342A"/><circle cx="30" cy="27" r="5" fill="#E8392F"/><circle cx="25" cy="31" r="4.5" fill="#C42A22"/></svg>`;
 
 // ---------- bildirim & konfeti ----------
@@ -892,7 +890,7 @@ function anaSayfa() {
         <p class="alt">Arkadaşlarını topla, isimler karışsın, sandığını aç! İçinden hediye alacağın kişi çıkar — kimse kendine çıkmaz.</p>
         ${sayacHtml()}
         <div class="hero-aksiyon">
-          <a class="btn buyuk" href="#olustur" id="heroOlustur">🎁 Çekiliş oluştur</a>
+          <a class="btn buyuk" href="#olustur" id="heroOlustur">Çekiliş oluştur</a>
           <a class="btn ince" href="#kodla" id="heroKod">Kodla katıl</a>
         </div>
       </div>
@@ -907,7 +905,7 @@ function anaSayfa() {
         <div class="hata" id="h1" role="alert"></div>
       </section>
       <section class="kart" id="kodla" aria-labelledby="kd-b">
-        <h2 class="plaka" id="kd-b">Kodla katıl</h2><span class="kose-sus" aria-hidden="true">🎁</span>
+        <h2 class="plaka" id="kd-b">Kodla katıl</h2><span class="kose-sus" aria-hidden="true">🔔</span>
         <p class="alt-yazi">Sana gelen 6 haneli kodu yaz.</p>
         <div class="kod-alan" id="kodAlan"><label class="sr" for="kodGir">Çekiliş kodu, 6 karakter</label>
           <input id="kodGir" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false">
@@ -978,12 +976,12 @@ function odaSayfasi() {
       ${kisiselLinkHtml()}
     </section>`);
   } else if (b && o.cekildi) {
-    durum = el(`<section class="kart sicak durum" aria-labelledby="d-p"><h2 class="plaka" id="d-p">${b.acti ? 'Hediyen' : 'Sandığın hazır'}</h2><span class="kose-sus" aria-hidden="true">🎁</span><div class="sandik-hazir">
+    durum = el(`<section class="kart sicak durum" aria-labelledby="d-p"><h2 class="plaka" id="d-p">${b.acti ? 'Hediyen' : 'Sandığın hazır'}</h2><span class="kose-sus" aria-hidden="true">⭐</span><div class="sandik-hazir">
       <div class="sandik-kap salin">${sandikSvg()}</div>
-      <div><span class="etiket-ust">${b.acti ? '🎁 Sandık açıldı' : '✨ Eşleştirme tamam'}</span>
+      <div><span class="etiket-ust">${b.acti ? '✨ Sandık açıldı' : '✨ Eşleştirme tamam'}</span>
         <h2 id="d-b">${b.acti ? 'Hediye alacağın kişi' : 'Sandığın hazır!'}</h2>
         <p>${b.acti ? `<span class="hedef-isim">${metin(b.hedef)}</span><span class="soluk">Bu bir sır — kimseye söyleme 🤫</span>` : 'Sandığını aç ve hediye alacağın kişiyi gör.'}</p>
-        <button class="btn buyuk${b.acti ? ' ince' : ''}" id="acBtn">${b.acti ? 'Açılışı tekrar izle' : '🎁 Sandığı aç'}</button></div>
+        <button class="btn buyuk${b.acti ? ' ince' : ''}" id="acBtn">${b.acti ? 'Açılışı tekrar izle' : 'Sandığı aç'}</button></div>
     </div>${kisiselLinkHtml()}</section>`);
   } else {
     durum = el(`<section class="kart durum"><h2 class="plaka">Katılım kapandı</h2><h2>Eşleştirme tamamlandı</h2>
@@ -1029,7 +1027,7 @@ function odaSayfasi() {
   if (!n) liste.append(el('<div class="bos">Henüz kimse yok — ilk sen katıl! ⛄</div>'));
   o.katilimcilar.forEach((k, i) => {
     const sen = b && b.id === k.id;
-    const d = o.cekildi ? (k.acti ? '<span class="alt acti">🎁 Sandığını açtı</span>' : '<span class="alt">Sandığı kapalı</span>') : '<span class="alt hazir">Hazır ✓</span>';
+    const d = o.cekildi ? (k.acti ? '<span class="alt acti">✓ Sandığını açtı</span>' : '<span class="alt">Sandığı kapalı</span>') : '<span class="alt hazir">Hazır ✓</span>';
     const r = el(`<div class="oyuncu${sen ? ' sen' : ''}" role="listitem" style="animation-delay:${Math.min(i, 12) * 45}ms">${avatar(k.isim)}
       <span class="bilgi"><span class="isim">${metin(k.isim)}</span>${d}</span>${sen ? '<span class="sen-rozet">Sen</span>' : ''}</div>`);
     if (S.yk && !o.cekildi) {
@@ -1076,7 +1074,7 @@ async function eslestirmeSahnesi() {
   try {
     await Promise.all([istek(`odalar/${odaKodu}/cek`, { yoneticiAnahtari: S.yk }), animasyon]);
     $('#es-b').textContent = 'Herkes eşleşti! 🎄';
-    $('#esYuzde').textContent = '🎁';
+    $('#esYuzde').textContent = '✓';
     konfeti(innerWidth / 2, innerHeight * .4);
     $('.sahne-butonlar', s).innerHTML = '<button class="btn buyuk altin" id="esKapat">Harika!</button>';
     $('#esKapat').focus();
@@ -1097,7 +1095,7 @@ function sandikSahnesi(tekrar) {
   const s = el(`<div class="sahne" role="dialog" aria-modal="true" aria-labelledby="sa-b">
     <button class="kapat-x" aria-label="Kapat">✕</button><div class="flas"></div>
     <div class="sahne-ic">
-      <span class="etiket-ust">🎁 Senin sandığın</span><h2 id="sa-b">Sandığını aç!</h2>
+      <span class="etiket-ust">Senin sandığın</span><h2 id="sa-b">Sandığını aç!</h2>
       <div class="acilis-alan" role="button" tabindex="0" aria-label="Sandık. Açmak için ${GEREKEN_DOKUNUS} kez dokun ya da Enter'a bas.">
         <div class="sandik-kap salin" style="width:100%">${sandikSvg()}</div>
         <div class="sonuc-yer"><div class="etiket-kart"><span class="kurdele"></span>${HOLLY}
@@ -1165,7 +1163,7 @@ async function yukle(zorla) {
   const degisti = zorla || JSON.stringify([oda, ben]) !== JSON.stringify([S.oda, S.ben]);
   S.oda = oda; S.ben = ben; S.yk = oku('yonetici:' + odaKodu);
   const yeniCekildi = oncekiCekildi === false && oda.cekildi;
-  if (yeniCekildi && ben && !S.yk) bildirim('🎁', 'Eşleştirme tamamlandı', 'Sandığın hazır!');
+  if (yeniCekildi && ben && !S.yk) bildirim('🎄', 'Eşleştirme tamamlandı', 'Sandığın hazır!');
   if (degisti && !S.sahneAcik) {
     const odak = document.activeElement, acikDetay = document.querySelector('details.kisisel[open]');
     if (!zorla && !yeniCekildi && ((odak && odak.matches('input')) || acikDetay)) { /* kullanıcı bir şeyle ilgilenirken bozma */ } else odaSayfasi();
