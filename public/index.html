@@ -909,14 +909,14 @@ function anaSayfa() {
       <div>
         <h1 id="hero-b"><span class="ince-satir">Yılbaşı</span><span class="ana-satir">Çekilişi</span></h1>
         <div class="susleme" aria-hidden="true">✦ 2027 ✦</div>
-        <p class="alt">Arkadaşlarını topla, isimler karışsın, sandığını aç! İçinden hediye alacağın kişi çıkar — kimse kendine çıkmaz.</p>
+        <p class="alt">Arkadaşlarını davet et, yılbaşı çekilişini başlat. Herkes kime hediye alacağını kendi sandığını açarak öğrensin.</p>
         ${sayacHtml()}
         <div class="hero-aksiyon">
           <a class="btn buyuk" href="#olustur" id="heroOlustur">Çekiliş oluştur</a>
           <a class="btn ince" href="#kodla" id="heroKod">Kodla katıl</a>
         </div>
       </div>
-      <div class="hero-agac"><canvas id="heroAgac" role="button" tabindex="0" aria-label="Parçacıklardan oluşan yılbaşı ağacı. Dokununca sitenin QR koduna dönüşür."></canvas><p class="agac-ipucu" id="heroIpucu">Ağaca dokun — QR koda dönüşsün</p></div>
+      <div class="hero-agac"><canvas id="heroAgac" role="button" tabindex="0" aria-label="Parçacıklardan oluşan yılbaşı ağacı. Dokununca sitenin QR koduna dönüşür."></canvas><p class="agac-ipucu" id="heroIpucu">Ağaca dokun</p></div>
     </section>
     <div class="ikili">
       <section class="kart sicak" id="olustur" aria-labelledby="ol-b">
@@ -943,7 +943,7 @@ function anaSayfa() {
   const heroDegis = () => {
     if (!heroMotor.qrVar()) return;
     const m = heroMotor.degistir();
-    $('#heroIpucu').textContent = m === 'qr' ? 'Telefonunla okut — tekrar dokun, ağaç dönsün' : 'Ağaca dokun — QR koda dönüşsün';
+    $('#heroIpucu').textContent = m === 'qr' ? 'Telefonunla okut' : 'Ağaca dokun';
   };
   $('#heroAgac').addEventListener('click', heroDegis);
   $('#heroAgac').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); heroDegis(); } });
@@ -1140,7 +1140,10 @@ function agacMotoru(tv, link, ayar = {}) {
 
   function hedef(p, zaman) {
     if (mod === 'qr' && qr) {
-      if (!p.hucre) { const a = p.aci + zaman * .0002, R = Math.max(w, h) * .5 + p.ic * 60; return [w / 2 + Math.cos(a) * R, h / 2 + Math.sin(a) * R * .7, .2]; }
+      if (!p.hucre) {                                   // fazlalık parçacıklar QR'ın çevresinde, alanın içinde döner
+        const a = p.aci + zaman * .00025, kalin = (p.ic - .5) * Math.min(w, h) * .06;
+        return [w / 2 + Math.cos(a) * (w * .44 + kalin), h / 2 + Math.sin(a) * (h * .44 + kalin), .35];
+      }
       const { hucre, x0, y0 } = qrOlcu();
       return [x0 + (p.hucre[1] + .15 + p.jx * .7) * hucre, y0 + (p.hucre[0] + .15 + p.jy * .7) * hucre, 1];
     }
@@ -1217,8 +1220,9 @@ function agacMotoru(tv, link, ayar = {}) {
     }
     c.globalCompositeOperation = 'source-over';
     if (qrNet > 0) {                                        // yerleşince net QR (telefon kameraları için)
-      const { hucre, x0, y0 } = qrOlcu();
-      c.globalAlpha = qrNet;
+      const { hucre, x0, y0 } = qrOlcu(), pay = hucre * 2.5;
+      c.globalAlpha = qrNet; c.fillStyle = '#FFF8EE';      // kartın üstünden geçen parçacıkları ört
+      c.beginPath(); c.roundRect(x0 - pay, y0 - pay, qr.n * hucre + pay * 2, qr.n * hucre + pay * 2, hucre * 1.5); c.fill();
       for (let r = 0; r < qr.n; r++) for (let k = 0; k < qr.n; k++) if (qr.koyu(r, k)) {
         c.fillStyle = bulucu(r, k) ? '#C8141F' : '#0E4D26';
         c.fillRect(x0 + k * hucre, y0 + r * hucre, hucre, hucre);
@@ -1237,7 +1241,7 @@ function agacQrSahnesi(link, baslik) {
   const s = el(`<div class="qr-sahne" role="dialog" aria-modal="true" aria-labelledby="qr-b">
     <button class="kapat-x" aria-label="Kapat">✕</button>
     <canvas aria-label="Parçacıklardan oluşan yılbaşı ağacı. Dokununca QR koda dönüşür."></canvas>
-    <div class="qr-ust"><h2 id="qr-b">${metin(baslik)}</h2><p id="qrIpucu">Ağaca dokun, QR kodu gör</p></div>
+    <div class="qr-ust"><h2 id="qr-b">${metin(baslik)}</h2><p id="qrIpucu">Ağaca dokun</p></div>
     <div class="qr-alt"><div class="qr-link">${metin(link)}</div>
       <div class="qr-butonlar"><button class="btn" id="qrDegis">QR kodu göster</button><button class="btn ince" id="qrKopya">Linki kopyala</button></div></div>
   </div>`);
@@ -1247,7 +1251,7 @@ function agacQrSahnesi(link, baslik) {
     if (!motor.qrVar()) { $('#qrIpucu', s).textContent = 'QR kod üretilemedi — linki kopyalayabilirsin'; return; }
     const m = motor.degistir();
     $('#qrDegis', s).textContent = m === 'qr' ? 'Ağaca dön' : 'QR kodu göster';
-    $('#qrIpucu', s).textContent = m === 'qr' ? 'Telefonunla okut — tekrar dokun, ağaç geri gelsin' : 'Ağaca dokun, QR kodu gör';
+    $('#qrIpucu', s).textContent = m === 'qr' ? 'Telefonunla okut' : 'Ağaca dokun';
   };
   $('canvas', s).addEventListener('click', degistir);
   $('#qrDegis', s).onclick = degistir;
